@@ -1,0 +1,66 @@
+<div class="d-inline-flex align-items-center" style="height: 45px">
+  <!-- Twitter -->
+  <a
+    class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
+    [href]="
+      'https://twitter.com/intent/tweet?url=' +
+      currentUrl +
+      '&text=Check%20this%20out!'
+    "
+    target="_blank"
+  >
+    <i class="fab fa-twitter fw-normal"></i>
+  </a>
+
+  <!-- Facebook -->
+  <a
+    class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
+    [href]="'https://www.facebook.com/sharer/sharer.php?u=' + currentUrl"
+    target="_blank"
+  >
+    <i class="fab fa-facebook-f fw-normal"></i>
+  </a>
+
+  <!-- LinkedIn -->
+  <a
+    class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
+    [href]="'https://www.linkedin.com/sharing/share-offsite/?url=' + currentUrl"
+    target="_blank"
+  >
+    <i class="fab fa-linkedin-in fw-normal"></i>
+  </a>
+
+  <!-- Pinterest -->
+  <!-- <a
+    class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2"
+    [attr.href]="
+      'https://www.pinterest.com/pin/create/button/?url=' +
+      currentUrl +
+      '&media=' +
+      imageUrl +
+      '&description=' +
+      description
+    "
+    target="_blank"
+    data-pin-do="buttonPin"
+    [attr.data-pin-url]="currentUrl"
+    [attr.data-pin-media]="imageUrl"
+    data-pin-description="Check out this amazing recipe!"
+  >
+    <i class="fab fa-pinterest fw-normal"></i>
+  </a> -->
+
+  
+  <!-- Telegram -->
+  <a
+    class="btn btn-sm btn-outline-light btn-sm-square rounded-circle"
+    [href]="
+      'https://t.me/share/url?url=' +
+      currentUrl +
+      '&text=Check%20out%20this%20recipe!'
+    "
+    target="_blank"
+  >
+    <i class="fab fa-telegram-plane fw-normal"></i>
+  </a>
+</div>

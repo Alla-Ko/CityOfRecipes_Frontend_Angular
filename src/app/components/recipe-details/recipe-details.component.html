@@ -1,0 +1,525 @@
+<div class="container-xxl py-4">
+  
+	<div class="recipe-container rounded p-3">
+		<!-- Індикатор завантаження -->
+		<div *ngIf="isLoading" class="text-center">
+			<div class="spinner-border green-text" role="status">
+				<span class="sr-only">Завантаження...</span>
+			</div>
+		</div>
+  <!-- додати в улюблені -->
+  <div 	 class="recipe-content">
+    <div (click)="toggleFavorite()" class="favorite-icon green-text">
+      <small
+        *ngIf="!isLoading"
+        class="fa fa-2x fa-heart"
+        [class.fa-regular]="!isFavorite"
+        [class.fa-solid]="isFavorite"
+        style="display: inline-block"
+      ></small>
+    </div>
+    <!-- рядочок назва -->
+    <div class="text-center wow animate__animated animate__fadeInUp">
+      <h6 class="section-title bg-white text-center px-3 green-text">
+        Назва рецепта
+      </h6>
+      <h1 class="mb-5">{{ recipe.recipeName }}</h1>
+    </div>
+    <!-- рейтинг рецепта -->
+    <div class="text-center wow animate__animated animate__fadeInUp">
+      <!-- рейтинг -->
+      <div class="mb-3 green-text">
+        <!-- Рендеринг зірок рейтингу -->
+        <ng-container
+          *ngFor="
+            let star of [].constructor(
+              getRatingStars(recipe.averageRating ?? 0).full
+            )
+          "
+        >
+          <small
+            class="fa fa-solid fa-star"
+            style="display: inline-block"
+          ></small>
+          <!-- Повна зірочка -->
+        </ng-container>
+
+        <ng-container *ngIf="getRatingStars(recipe.averageRating ?? 0).half">
+          <small
+            class="fa fa-solid fa-star-half-alt"
+            style="display: inline-block"
+          ></small>
+          <!-- Половинчаста зірочка -->
+        </ng-container>
+
+        <ng-container
+          *ngFor="
+            let star of [].constructor(
+              getRatingStars(recipe.averageRating ?? 0).empty
+            )
+          "
+        >
+          <small
+            class="fa fa-regular fa-star"
+            style="display: inline-block"
+          ></small>
+          <!-- Порожня зірочка -->
+        </ng-container>
+        <ng-container
+          *ngIf="recipe.averageRating ? recipe.averageRating : 0 > 0"
+        >
+          <small style="display: inline-block">
+            {{
+              " | " +
+                (recipe.averageRating ? recipe.averageRating.toFixed(1) : "0.0")
+            }}
+          </small>
+        </ng-container>
+      </div>
+    </div>
+    <!-- картинка рецепта -->
+    <div class="recipe-item">
+      <div
+        class="overflow-hidden hard-frame-recipe wow animate__animated animate__fadeInUp"
+      >
+        <img
+          [src]="
+            recipe.photoUrl ? recipe.photoUrl : 'assets/images/app/norecepi.jpg'
+          "
+          alt="{{ recipe.recipeName }}"
+          (error)="recipe.photoUrl = 'assets/images/app/norecepi.jpg'"
+        />
+      </div>
+    </div>
+    <!-- автор -->
+
+    <div class="text-center wow animate__animated animate__fadeInUp">
+      <h6 class="section-title bg-white text-center px-3 green-text">
+        Автор рецепта
+      </h6>
+    </div>
+    <div class="author-frame wow animate__animated animate__fadeInUp">
+      <div style="flex-shrink: 0; margin-right: 10px">
+        <img
+          class="bg-white rounded-circle shadow p-1"
+          [src]="
+            author.profilePhotoUrl
+              ? author.profilePhotoUrl
+              : 'assets/images/app/noavatar.jpg'
+          "
+          alt="{{ author.profilePhotoUrl }}"
+          (error)="author.profilePhotoUrl = 'assets/images/app/noavatar.jpg'"
+        />
+      </div>
+      <div class="p-3">
+        <div class="author-details">
+          <h5 class="mb-0">{{ author.firstName + " " + author.lastName }}</h5>
+          <div>
+            <small class="flex-fill text-center">
+              <i class="fa fa-map-marker-alt green-text me-2"></i
+              >{{ author.country + ", " + author.city }}
+            </small>
+          </div>
+          <div>
+            <small class="flex-fill text-center py-2">
+              <i class="fa fa-calendar-alt green-text me-2"></i>Резидент
+              {{ calculateResidenceDuration(author.registrationDate) }}
+            </small>
+          </div>
+          <!-- рейтинг -->
+          <div class="mb-3 green-text">
+            <!-- Рендеринг зірок рейтингу -->
+            <ng-container
+              *ngFor="
+                let star of [].constructor(
+                  getRatingStars(author.rating ?? 0).full
+                )
+              "
+            >
+              <small
+                class="fa fa-solid fa-star"
+                style="display: inline-block"
+              ></small>
+              <!-- Повна зірочка -->
+            </ng-container>
+
+            <ng-container *ngIf="getRatingStars(author.rating ?? 0).half">
+              <small
+                class="fa fa-solid fa-star-half-alt"
+                style="display: inline-block"
+              ></small>
+              <!-- Половинчаста зірочка -->
+            </ng-container>
+
+            <ng-container
+              *ngFor="
+                let star of [].constructor(
+                  getRatingStars(author.rating ?? 0).empty
+                )
+              "
+            >
+              <small
+                class="fa fa-regular fa-star"
+                style="display: inline-block"
+              ></small>
+              <!-- Порожня зірочка -->
+            </ng-container>
+            <ng-container *ngIf="author.rating ? author.rating : 0 > 0">
+              <small style="display: inline-block">
+                {{ " | " + (author.rating ? author.rating.toFixed(1) : "0.0") }}
+              </small>
+              <!-- Половинчаста зірочка -->
+            </ng-container>
+          </div>
+          <!-- кнопки -->
+          <div class="d-flex justify-content-start mb-2">
+            <a
+              [routerLink]="['/authors', author.id]"
+              class="btn btn-sm btn-primary px-3 border-end"
+              style="border-radius: 30px 0 0 30px; color: white"
+            >
+              Сторінка шефа
+            </a>
+            <a
+              *ngIf="isLoggedIn"
+              (click)="toggleFavoriteAuthor(author)"
+              class="btn btn-sm btn-primary px-3"
+              style="border-radius: 0 30px 30px 0; color: white"
+            >
+              {{
+                author.isfavorited ? "Видалити з обраних" : "Додати в обрані"
+              }}
+            </a>
+            <a
+              *ngIf="!isLoggedIn"
+              [routerLink]="['/login']"
+              class="btn btn-sm btn-primary px-3"
+              style="border-radius: 0 30px 30px 0; color: white"
+            >
+              Додати в обрані
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Основна інформація -->
+    <div class="text-center wow animate__animated animate__fadeInUp m-3">
+      <h6 class="section-title bg-white text-center px-3 green-text">
+        Основна інформація
+      </h6>
+    </div>
+    <!-- дата публікації -->
+    <div class="row mb-3">
+      <div class="col-12 col-lg-2">
+        <p class="form-label green-text">Дата публікації</p>
+      </div>
+      <div class="col-12 col-lg-10">
+        <p class="form-label">{{ formatDate(recipe.createdAt) }}</p>
+      </div>
+    </div>
+    <!-- категорія рецепта -->
+    <div class="row mb-3">
+      <div class="col-12 col-lg-2">
+        <label class="form-label green-text">Категорія</label>
+      </div>
+      <div class="col-12 col-lg-10 green-text">
+        <a
+          [routerLink]="['/recipes/categories', category.slug]"
+          class="form-label"
+          >{{ category.categoryName }}</a
+        >
+      </div>
+    </div>
+
+    <!-- Підходить до Свята -->
+    <div *ngIf="recipe.isChristmas||recipe.isChildren||recipe.isEaster||recipe.isNewYear" class="row mb-3">
+      <div class="col-12 col-lg-2">
+        <label class="form-label green-text">Підійде для свят та нагод</label>
+      </div>
+      <div class="col-12 col-lg-10 green-text">
+        <label>
+          <a
+            class="mb-0"
+            *ngIf="recipe.isChristmas"
+            [routerLink]="['/recipes/categories/christmas']"
+          >
+            <i class="fa fa-tree green-text me-2"></i>Різдво
+          </a>
+        </label>
+        <label>
+          <a
+            class="mb-0"
+            *ngIf="recipe.isNewYear"
+            [routerLink]="['/recipes/categories/new-year']"
+          >
+            <i class="fa fa-gift green-text me-2"></i>Новий рік
+          </a>
+        </label>
+        <label>
+          <a
+            class="mb-0"
+            *ngIf="recipe.isEaster"
+            [routerLink]="['/recipes/categories/easter']"
+          >
+            <i class="fa fa-dove green-text me-2"></i>Великдень
+          </a>
+        </label>
+        <a
+          class="mb-0"
+          *ngIf="recipe.isChildren"
+          [routerLink]="['/recipes/categories/children']"
+        >
+          <i class="fa fa-birthday-cake green-text me-2"></i>Дитяче свято
+        </a>
+      </div>
+    </div>
+    <!-- час приготування -->
+    <div class="row mb-3">
+      <div class="col-12 col-lg-2">
+        <label class="form-label green-text">Час приготування</label>
+      </div>
+      <div class="col-12 col-lg-10 green-text">
+        <p class="mb-0">
+          <i class="fa fa-clock green-text me-2"></i
+          >{{ recipe.preparationTimeMinutes }} хв
+        </p>
+      </div>
+    </div>
+
+    <!-- інгридієнти -->
+    <div class="row mb-3">
+      <div class="col-12 col-lg-2">
+        <label class="form-label green-text">Інгридієнти</label>
+      </div>
+      <div class="col-12 col-lg-10 green-text">
+        <p class="mb-0">
+          <i class="fa fa-pen-to-square green-text me-2"></i
+          >{{ recipe.ingredientsList }}
+        </p>
+      </div>
+    </div>
+    <!-- хештеги -->
+    <div class="row mb-3">
+      <div class="col-12 col-lg-2">
+        <label class="form-label green-text">Хештеги</label>
+      </div>
+      <div class="col-12 col-lg-10">
+        <div *ngIf="recipe.tags && recipe.tags.length">
+          <div class="hashtag-container">
+            <i class="fa fa-hashtag green-text me-2"></i>
+            <a
+              class="service-item hashtag-item rounded p-1 text-primary"
+              *ngFor="let tag of recipe.tags"
+              [routerLink]="['/recipes/tags', tag.replace('#', '')]"
+            >
+              {{ tag }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- оцінити рецепт -->
+    <div class="row mb-3" *ngIf="isLoggedIn">
+      <div class="col-12 col-lg-2">
+        <label class="form-label green-text">Оцінити рецепт</label>
+      </div>
+      <div class="col-12 col-lg-10 green-text">
+        <p class="mb-0 green-text">
+          <i
+            *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+            class="fa fa-star"
+            [class.fa-solid]="i < myRating || hoverRating >= i + 1"
+            [class.fa-regular]="i >= myRating && hoverRating < i + 1"
+            (click)="rateRecipe(i + 1)"
+            (mouseover)="hoverRating = i + 1"
+            (mouseleave)="hoverRating = 0"
+          ></i>
+        </p>
+        <p>
+          <small class=""
+            >{{ infoMessage
+            }}<i
+              *ngIf="infoMessage.length > 0"
+              class="fa fa-star fa-solid text-green"
+            ></i
+          ></small>
+        </p>
+      </div>
+    </div>
+    <!-- спосіб приготування -->
+
+    <div class="text-center wow animate__animated animate__fadeInUp m-3">
+      <h6 class="section-title bg-white text-center px-3 green-text">
+        Спосіб приготування
+      </h6>
+    </div>
+    <div class="about-item" [innerHTML]="sanitizedInstructionsText"></div>
+    <!-- відео якщо є -->
+    <div class="about-item">
+      <div *ngIf="recipe.videoUrl">
+        <div class="video-wrapper" (click)="loadVideo()">
+          <div
+            *ngIf="!videoLoaded"
+            class="video-placeholder"
+            [style.backgroundImage]="
+              'url(' + getThumbnailUrl(recipe.videoUrl) + ')'
+            "
+          ></div>
+          <iframe
+            *ngIf="videoLoaded"
+            [src]="getEmbedUrl(recipe.videoUrl)"
+            width="560"
+            height="315"
+            frameborder="0"
+            allowfullscreen
+          ></iframe>
+          <div *ngIf="!videoLoaded" class="play-button green-text">
+            <p class="mb-0 green-text" style="cursor: pointer">
+              Подивитися відео
+              <i class="fa fa-brands fa-youtube-square" aria-hidden="true"></i>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- редагувати (для автора) -->
+    <div *ngIf="isAuthor && !recipe.isParticipatedInContest" class="">
+      <button
+        class="btn btn-secondary btn-edit wow animate__animated animate__fadeInUp m-1"
+        [routerLink]="['/recipes/edit', recipe.slug]"
+      >
+        Редагувати
+      </button>
+      <button
+        class="btn btn-danger wow animate__animated animate__fadeInUp"
+        (click)="confirmDelete()"
+      >
+        Видалити
+      </button>
+    </div>
+    <p>
+      <small class="">{{ deleteMessage }}</small>
+    </p>
+
+    <!-- бере участь в конкурсах -->
+
+    <div *ngIf="recipeContests && recipeContests.length > 0">
+      <!-- рядочок назва -->
+      <div class="text-center wow animate__animated animate__fadeInUp">
+        <h6 class="section-title bg-white text-center px-3 green-text">
+          Цей рецепт є учасником конкурсів
+        </h6>
+      </div>
+      <!-- Контейнер з даними -->
+      <div *ngIf="!isLoading" class="container">
+        <div class="row g-4 mb-2">
+          <!-- Динамічний рендеринг конкурсів -->
+          <div
+            *ngFor="let contest of recipeContests"
+            class="col-lg-6 col-md-12 wow animate__animated animate__fadeInUp"
+          >
+            <div class="team-item">
+              <div
+                class="overflow-hidden hard-frame"
+                [routerLink]="['/contests', contest.slug]"
+              >
+                <img
+                  [src]="
+                    contest.photoUrl
+                      ? contest.photoUrl
+                      : 'assets/images/app/nocontest.jpg'
+                  "
+                  alt="{{ contest.contestName }}"
+                  (error)="contest.photoUrl = 'assets/images/app/norecepi.jpg'"
+                />
+              </div>
+
+              <div class="text-center p-4">
+                <h5 class="mb-0 green-text">{{ contest.contestName }}</h5>
+              </div>
+              <div class="text-center green-text">
+                <p class="text-secondary">
+                  <i class="fa-regular fa-calendar green-text"></i> Дата
+                  початку:
+                  {{ formatDate(contest.startDate) }}
+                </p>
+              </div>
+              <div class="text-center green-text">
+                <p class="text-secondary">
+                  <i class="fa-regular fa-calendar green-text"></i> Дата
+                  закінчення:
+                  {{ formatDate(contest.endDate) }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- може взяти участь у конкурсах (для автора) -->
+
+    <div *ngIf="isAuthor && availableContests && availableContests.length > 0">
+      <!-- рядочок назва -->
+      <div class="text-center wow animate__animated animate__fadeInUp">
+        <h6 class="section-title bg-white text-center px-3 green-text">
+          Цей рецепт Можна відправити на конкурси
+        </h6>
+      </div>
+      <!-- Контейнер з даними -->
+      <div *ngIf="!isLoading" class="container">
+        <div class="row g-4 mb-2">
+          <!-- Динамічний рендеринг конкурсів -->
+          <div
+            *ngFor="let contest of availableContests"
+            class="col-lg-6 col-md-12 wow animate__animated animate__fadeInUp"
+          >
+            <div class="team-item">
+              <div
+                class="overflow-hidden hard-frame"
+                [routerLink]="['/contests', contest.slug]"
+              >
+                <img
+                  [src]="
+                    contest.photoUrl
+                      ? contest.photoUrl
+                      : 'assets/images/app/nocontest.jpg'
+                  "
+                  alt="{{ contest.contestName }}"
+                  (error)="contest.photoUrl = 'assets/images/app/norecepi.jpg'"
+                />
+              </div>
+
+              <div class="text-center p-4">
+                <h5 class="mb-0 green-text">{{ contest.contestName }}</h5>
+              </div>
+              <div class="text-center green-text">
+                <p class="text-secondary">
+                  <i class="fa-regular fa-calendar green-text"></i> Дата
+                  початку:
+                  {{ formatDate(contest.startDate) }}
+                </p>
+              </div>
+              <div class="text-center green-text">
+                <p class="text-secondary">
+                  <i class="fa-regular fa-calendar green-text"></i> Дата
+                  закінчення:
+                  {{ formatDate(contest.endDate) }}
+                </p>
+              </div>
+              <div class="text-center green-text">
+                <button
+                  class="btn btn-secondary wow animate__animated animate__fadeInUp m-3"
+                  (click)="sendToContest(contest.id)"
+                >
+                  Відправити на конкурс
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="errorMessage" style="color: red">{{ errorMessage }}</div>
+    </div>
+  </div>
+</div>

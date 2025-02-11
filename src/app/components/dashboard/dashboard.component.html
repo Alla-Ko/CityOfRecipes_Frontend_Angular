@@ -1,0 +1,273 @@
+<div *ngIf="me && isEmailConfirmed" class="container-xxl py-4">
+  <!-- Фото профілю та кнопка заміни -->
+  <div class="wow animate__animated animate__fadeInUp m-3">
+    <div
+      class="d-flex justify-content-center"
+      style="max-width: 300px; margin: 0 auto"
+    >
+      <div class="team-item text-center">
+        <div class="overflow-hidden hard-frame">
+          <img
+            class="img-fluid"
+            [src]="
+              me.profilePhotoUrl
+                ? me.profilePhotoUrl
+                : 'assets/images/app/noavatar.jpg'
+            "
+            alt="{{ me.firstName + ' ' + me.lastName }}"
+            (error)="me.profilePhotoUrl = 'assets/images/app/noavatar.jpg'"
+          />
+        </div>
+        <button
+          class="btn btn-secondary m-2 text-white"
+          (click)="fileInput.click()"
+        >
+          Завантажити фото
+        </button>
+        <input
+          type="file"
+          #fileInput
+          class="d-none"
+          (change)="onImageSelected($event)"
+        />
+      </div>
+    </div>
+  </div>
+
+  <form (ngSubmit)="saveChanges()">
+    <div class="mb-3 wow animate__animated animate__fadeInUp m-3">
+      <div class="col-md-6">
+        <label for="firstName" class="form-label green-text">Ім'я</label>
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          [(ngModel)]="me.firstName"
+          name="firstName"
+          placeholder="Ваше ім'я"
+        />
+      </div>
+      <div class="col-md-6">
+        <label for="lastName" class="form-label green-text">Прізвище</label>
+        <input
+          type="text"
+          class="form-control"
+          id="lastName"
+          [(ngModel)]="me.lastName"
+          name="lastName"
+          placeholder="Ваше прізвище"
+        />
+      </div>
+    </div>
+
+    <div class="mb-3 wow animate__animated animate__fadeInUp m-3">
+      <label for="email" class="form-label green-text">Електронна пошта</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        placeholder="example@example.com"
+        [value]="me.email"
+        disabled
+      />
+      <small class="form-text text-muted"
+        >Електронну пошту змінити не можливо, за потреби створіть новий
+        аккаунт</small
+      >
+    </div>
+
+    <div class="container-xxl py-4 flex-column">
+      <div class="material mb-3 wow animate__animated animate__fadeInUp m-3">
+        <label class="form-label green-text">Країна</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="selectedCountry"
+          [matAutocomplete]="auto"
+          name="countryName"
+          (input)="onCountryInput($event)"
+          (blur)="onCountryBlur()"
+          placeholder="Виберіть країну"
+        />
+        <mat-autocomplete
+          class="mat-autocomplete-panel"
+          #auto="matAutocomplete"
+          [displayWith]="countryDisplayWith"
+        >
+          <mat-option
+            class="mat-option"
+            *ngFor="let country of countries"
+            [value]="country"
+            style="z-index: 1000"
+            (click)="onCountrySelect(country)"
+          >
+            {{ country.countryName }}
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+
+      <div class="material mb-3 wow animate__animated animate__fadeInUp m-3">
+        <label class="form-label green-text">Місто</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="selectedCity"
+          [matAutocomplete]="auto1"
+          name="selectedCity"
+          (input)="onCityInput($event)"
+          (blur)="onCityBlur()"
+          placeholder="Виберіть місто"
+        />
+        <mat-autocomplete
+          [displayWith]="cityDisplayWith"
+          class="mat-autocomplete-panel"
+          #auto1="matAutocomplete"
+        >
+          <mat-option
+            class="mat-option"
+            *ngFor="let city of cities"
+            [value]="city"
+            style="z-index: 1000"
+            (click)="onCitySelect(city)"
+          >
+            {{ city.cityName }}
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+
+      <div class="mb-3 mt-4 wow animate__animated animate__fadeInUp m-3">
+        <label class="form-label green-text">Про себе</label>
+        <div class="quill-container">
+          <quill-editor
+            [(ngModel)]="sanitizedAbout"
+            name="aboutMe"
+          ></quill-editor>
+        </div>
+      </div>
+
+      <div class="mb-3 wow animate__animated animate__fadeInUp m-3">
+        <div class="col-md-6">
+          <label for="newPassword" class="form-label green-text"
+            >Новий пароль</label
+          >
+          <input
+            type="password"
+            [(ngModel)]="newPassword"
+            class="form-control"
+            id="newPassword"
+            name="newPassword"
+            placeholder="Новий пароль"
+          />
+        </div>
+        <div class="col-md-6">
+          <label for="confirmPassword" class="form-label green-text"
+            >Повторити пароль</label
+          >
+          <input
+            type="password"
+            [(ngModel)]="confirmPassword"
+            class="form-control"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Повторіть пароль"
+          />
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-secondary wow animate__animated animate__fadeInUp m-3"
+        
+      >
+        Зберегти зміни
+      </button>
+      <div *ngIf="errorMessage" style="color: red">{{ errorMessage }}</div>
+    </div>
+  </form>
+
+  <!-- Мої розділи -->
+  <div class="mt-5 wow animate__animated animate__fadeInUp m-3">
+    <h5>Мої розділи</h5>
+    <ul class="list-group green-text">
+      <li class="list-group-item">
+        <a [routerLink]="['/dashboard/my-recipes']">Мої рецепти</a>
+      </li>
+      <li class="list-group-item">
+        <a [routerLink]="['/recipes/new-recipe']">Додати рецепт</a>
+      </li>
+      <li class="list-group-item">
+        <a [routerLink]="['/dashboard/favourite-chefs']">Улюблені автори</a>
+      </li>
+      <li class="list-group-item">
+        <a [routerLink]="['/dashboard/favourite-recipes']">Улюблені рецепти</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Кнопка для видалення аккаунту -->
+  <div class="mt-4 wow animate__animated animate__fadeInUp m-3">
+    <button (click)="onDeleteAccount()" class="btn btn-danger">
+      Видалити аккаунт
+    </button>
+  </div>
+</div>
+
+<!-- Модуль підтвердження електронної пошти -->
+<div *ngIf="me && !isEmailConfirmed">
+  <div class="mb-3 wow animate__animated animate__fadeInUp m-3">
+    <label for="email" class="form-label green-text">Електронна пошта</label>
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      placeholder="example@example.com"
+      [value]="me.email"
+      disabled
+    />
+    <small class="form-text text-muted"
+      >Електронну пошту змінити не можливо, за потреби створіть новий
+      аккаунт</small
+    >
+  </div>
+
+  <button
+    *ngIf="!isEmailRequestSent"
+    (click)="sendEmailConfirmationRequest()"
+    type="button"
+    class="btn btn-secondary wow animate__animated animate__fadeInUp m-3"
+  >
+    Підтвердити електронну пошту
+  </button>
+
+  <form *ngIf="isEmailRequestSent">
+    <div class="col-md-6">
+      <input
+        type="text"
+        class="form-control"
+        id="emailCode"
+        [(ngModel)]="emailCode"
+        name="emailCode"
+        placeholder="Введіть код"
+      />
+    </div>
+    <button
+      type="submit"
+      class="btn btn-secondary wow animate__animated animate__fadeInUp m-3"
+      (click)="confirmEmail()"
+    >
+      Підтвердити
+    </button>
+  </form>
+
+  <button
+    (click)="logout()"
+    class="btn btn-primary rounded-pill py-2 px-4 m-2"
+    type="button"
+  >
+    Вийти
+  </button>
+</div>
+
+<small *ngIf="me && !isEmailConfirmed && isEmailRequestSent">{{
+  message
+}}</small>

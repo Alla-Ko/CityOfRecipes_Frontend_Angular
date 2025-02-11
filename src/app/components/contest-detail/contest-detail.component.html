@@ -1,0 +1,339 @@
+<div *ngIf="isLoading" class="text-center">
+  <div class="spinner-border green-text" role="status">
+    <span class="sr-only">Завантаження...</span>
+  </div>
+</div>
+<div class="contest-container rounded p-3">
+  <div class="recipe-content">
+    <!-- рядочок назва -->
+    <div class="text-center wow animate__animated animate__fadeInUp">
+      <h6 class="section-title bg-white text-center px-3 green-text">
+        Назва конкурса
+      </h6>
+      <h1 class="mb-5">{{ contest.contestName }}</h1>
+    </div>
+    <!-- картинка конкурса -->
+    <div class="recipe-item">
+      <div
+        class="overflow-hidden hard-frame-recipe wow animate__animated animate__fadeInUp"
+      >
+        <img
+          [src]="
+            contest.photoUrl
+              ? contest.photoUrl
+              : 'assets/images/app/nocontest.jpg'
+          "
+          alt="{{ contest.contestName }}"
+          (error)="contest.photoUrl = 'assets/images/app/nocontest.jpg'"
+        />
+      </div>
+    </div>
+    <!-- Умови конкурсу -->
+
+    <div
+      *ngIf="sanitizedContestDetails.length > 0"
+      class="text-center wow animate__animated animate__fadeInUp m-3"
+    >
+      <h6 class="section-title bg-white text-center px-3 green-text">
+        Умови конкурсу
+      </h6>
+    </div>
+    <div class="about-item" [innerHTML]="sanitizedContestDetails"></div>
+
+    <!-- Основна інформація -->
+    <div class="text-center wow animate__animated animate__fadeInUp m-3">
+      <h6 class="section-title bg-white text-center px-3 green-text">
+        Основна інформація
+      </h6>
+    </div>
+    <!-- дата початку -->
+    <div class="row mb-3">
+      <div class="col-12 col-lg-2">
+        <p class="form-label green-text">Дата початку</p>
+      </div>
+      <div class="col-12 col-lg-10">
+        <p class="form-label">{{ formatDate(contest.startDate) }}</p>
+      </div>
+    </div>
+    <!-- дата закінчення -->
+    <div class="row mb-3">
+      <div class="col-12 col-lg-2">
+        <p class="form-label green-text">Дата закінчення</p>
+      </div>
+      <div class="col-12 col-lg-10">
+        <p class="form-label">{{ formatDate(contest.endDate) }}</p>
+      </div>
+    </div>
+    <!-- категорія рецепта -->
+    <div class="row mb-3">
+      <div class="col-12 col-lg-2">
+        <label class="form-label green-text">Категорія рецептів</label>
+      </div>
+      <div class="col-12 col-lg-10 green-text">
+        <a
+          [routerLink]="['/recipes/categories', category.slug]"
+          class="form-label"
+          >{{ category.categoryName }}</a
+        >
+      </div>
+    </div>
+    <!-- обов інгрид -->
+    <div class="row mb-3">
+      <div class="col-12 col-lg-2">
+        <p class="form-label green-text">Обов'язкові інгридієнти</p>
+      </div>
+      <div class="col-12 col-lg-10">
+        <p class="form-label">{{ contest.requiredIngredients }}</p>
+      </div>
+    </div>
+
+    <!-- статус конкурса -->
+    <div class="row mb-3">
+      <div class="col-12 col-lg-2">
+        <p class="form-label green-text">Статус конкурса</p>
+      </div>
+      <div class="col-12 col-lg-10">
+        <p *ngIf="isCompleted" class="form-label">завершений</p>
+        <p *ngIf="!isCompleted" class="form-label">поточний</p>
+      </div>
+    </div>
+
+    <!-- Правила участі -->
+    <div class="text-center wow animate__animated animate__fadeInUp">
+      <h6 class="section-title bg-white text-center px-3 green-text">
+        Загальні правила конкурсів
+      </h6>
+    </div>
+
+    <div class="row gy-2 gx-4 mb-4">
+      <div class="col-sm-6">
+        <p class="mb-2">
+          <i class="fa fa-arrow-right green-text me-2"></i>Можливість взяти
+          участь у конкурсі мають рецепти, які відповідають критеріям конкурcу
+          по інгридієнтам та категорії рецепта.
+        </p>
+        <p class="mb-2">
+          <i class="fa fa-arrow-right green-text me-2"></i>Тільки автор рецепта
+          має право відправити свій рецепт на конкурс. Після цього рецепт більше
+          не можливо буде відкликати з конкурса, відредагувати чи видалити.
+        </p>
+        <p class="mb-2">
+          <i class="fa fa-arrow-right green-text me-2"></i>Перемога у конкурсі
+          визначається на дату його закінчення шляхом побудови рейтингової
+          таблиці.
+        </p>
+        <p class="mb-2">
+          <i class="fa fa-arrow-right green-text me-2"></i>Конкурсний рейтинг
+          рецепта визначається так: за кожну оцінку 5<small
+            class="fa fa-regular fa-star green-text"
+            style="display: inline-block"
+          ></small>
+          рецепт отримує 2 бали, за кожну оцінку 4<small
+            class="fa fa-regular fa-star green-text"
+            style="display: inline-block"
+          ></small>
+          рецепт отримує 1 бал.
+        </p>
+      </div>
+      <div class="col-sm-6">
+        <p class="mb-2">
+          <i class="fa fa-arrow-right green-text me-2"></i>Оцінки 1<small
+            class="fa fa-regular fa-star green-text"
+            style="display: inline-block"
+          ></small
+          >, 2<small
+            class="fa fa-regular fa-star green-text"
+            style="display: inline-block"
+          ></small
+          >, 3<small
+            class="fa fa-regular fa-star green-text"
+            style="display: inline-block"
+          ></small>
+          не враховуються у конкурсний рейтинг рецепта.
+        </p>
+        <p class="mb-2">
+          <i class="fa fa-arrow-right green-text me-2"></i>До конкурсного
+          рейтинга враховуються оцінки, які рецепт отримав до початку та під час
+          конкурсу.
+        </p>
+        <p class="mb-2">
+          <i class="fa fa-arrow-right green-text me-2"></i>До участі в конкурсі
+          допускаються рецепти з будь-яким середнім рейтингом, але переможцем
+          може стати тільки рецепт із середнім рейтингом більше 4<small
+            class="fa fa-regular fa-star green-text"
+            style="display: inline-block"
+          ></small>
+        </p>
+      </div>
+    </div>
+
+    <!-- Переможці конкурса -->
+    <div class="text-center wow animate__animated animate__fadeInUp">
+      <h6
+        *ngIf="
+          isCompleted &&
+          contest.winningRecipes &&
+          contest.winningRecipes.length > 0
+        "
+        class="section-title bg-white text-center px-3 green-text"
+      >
+        Рецепти-переможці
+      </h6>
+      <!-- Завершений конкурс нема переможців -->
+      <p
+        *ngIf="
+          isCompleted &&
+          (!contest.winningRecipes || contest.winningRecipes.length == 0)
+        "
+        class="form-label green-text"
+      >
+        В цьому конкурсі не було визначено переможців
+      </p>
+    </div>
+    <div
+      *ngIf="
+        isCompleted &&
+        contest.winningRecipes &&
+        contest.winningRecipes.length > 0
+      "
+      class="container"
+    >
+      <!-- Заголовок -->
+      <div class="row border-bottom pb-2 mb-3 text-center">
+        <div class="col-sm-1 col-md-1 text-secondary">№</div>
+        <div class="col-sm-6 col-md-3 text-secondary">Назва рецепта</div>
+        <div class="col-sm-5 col-md-3 text-secondary">Автор</div>
+        <div class="col-sm-6 col-md-3 text-secondary">
+          Середній рейтинг рецепта
+        </div>
+        <div class="col-sm-6 col-md-2 text-secondary">Конкурсний рейтинг</div>
+      </div>
+
+      <!-- Рядки даних -->
+      <div
+        class="row mb-2 text-center"
+        *ngFor="let recipe of contest.winningRecipes; let i = index"
+      >
+        <div class="col-sm-1 col-md-1 text-secondary">{{ i + 1 }}</div>
+        <a
+          [routerLink]="['/recipes', recipe.slug]"
+          class="col-sm-6 col-md-3 form-label"
+        >
+          {{ recipe.recipeName }}
+        </a>
+        <div
+          class="col-sm-6 col-md-3 d-flex align-items-center justify-content-center"
+        >
+          <img
+            class="bg-white rounded-circle me-2"
+            [src]="
+              recipe.authorPhotoUrl
+                ? recipe.authorPhotoUrl
+                : 'assets/images/app/noavatar.jpg'
+            "
+            alt="{{ recipe.authorName }}"
+            (error)="recipe.authorPhotoUrl = 'assets/images/app/noavatar.jpg'"
+            width="40"
+            height="40"
+            style="object-fit: cover"
+          />
+          <a [routerLink]="['/authors', recipe.authorId]" class="form-label">
+            {{ recipe.authorName }}
+          </a>
+        </div>
+        <div class="col-sm-5 col-md-3 green-text">
+          {{ (recipe.averageRating ? recipe.averageRating.toFixed(1) : "0.0") }}
+        </div>
+        <div class="col-sm-6 col-md-2 green-text">
+					{{ recipe.averageRating ? (recipe.contestRating?.toFixed(1) || "0.0") : "0.0" }}
+        </div>
+      </div>
+    </div>
+
+
+
+		
+		
+    <!-- Учасники конкурса -->
+    <div class="text-center wow animate__animated animate__fadeInUp">
+      <h6
+        *ngIf="contest.contestRecipes && contest.contestRecipes.length > 0"
+        class="section-title bg-white text-center px-3 green-text"
+      >
+        Рецепти-конкурсанти
+      </h6>
+      <p
+        *ngIf="!contest.contestRecipes || contest.contestRecipes.length == 0"
+        class="form-label"
+      >
+        В цьому конкурсі немає конкурсантів
+      </p>
+      <a
+        [routerLink]="['/dashboard/my-recipes']"
+        *ngIf="
+          (!contest.contestRecipes || contest.contestRecipes.length == 0) &&
+          !isCompleted
+        "
+        class="text-center m-5 px-3 green-text"
+      >
+        Вибрати рецепт для участі в конкурсі
+      </a>
+    </div>
+
+    <div
+      *ngIf="contest.contestRecipes && contest.contestRecipes.length > 0"
+      class="container"
+    >
+      <!-- Заголовок -->
+      <div class="row border-bottom pb-2 mb-3 text-center">
+        <div class="col-sm-1 col-md-1 text-secondary">№</div>
+        <div class="col-sm-6 col-md-3 text-secondary">Назва рецепта</div>
+        <div class="col-sm-5 col-md-3 text-secondary">Автор</div>
+        <div class="col-sm-6 col-md-3 text-secondary">
+          Середній рейтинг рецепта
+        </div>
+        <div class="col-sm-6 col-md-2 text-secondary">Конкурсний рейтинг</div>
+      </div>
+
+      <!-- Рядки даних -->
+      <div
+        class="row mb-2 text-center"
+        *ngFor="let recipe of contest.contestRecipes; let i = index"
+      >
+        <div class="col-sm-1 col-md-1 text-secondary">{{ i + 1 }}</div>
+        <a
+          [routerLink]="['/recipes', recipe.slug]"
+          class="col-sm-6 col-md-3 form-label"
+        >
+          {{ recipe.recipeName }}
+        </a>
+        <div
+          class="col-sm-6 col-md-3 d-flex align-items-center justify-content-center"
+        >
+          <img
+            class="bg-white rounded-circle me-2"
+            [src]="
+              recipe.authorPhotoUrl
+                ? recipe.authorPhotoUrl
+                : 'assets/images/app/noavatar.jpg'
+            "
+            alt="{{ recipe.authorName }}"
+            (error)="recipe.authorPhotoUrl = 'assets/images/app/noavatar.jpg'"
+            width="40"
+            height="40"
+            style="object-fit: cover"
+          />
+          <a [routerLink]="['/authors', recipe.authorId]" class="form-label">
+            {{ recipe.authorName }}
+          </a>
+        </div>
+        <div class="col-sm-5 col-md-3 green-text">
+          {{ (recipe.averageRating ? recipe.averageRating.toFixed(1) : "0.0") }}
+        </div>
+        <div class="col-sm-6 col-md-2 green-text">
+          {{ recipe.averageRating ? (recipe.contestRating?.toFixed(1) || "0.0") : "0.0" }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

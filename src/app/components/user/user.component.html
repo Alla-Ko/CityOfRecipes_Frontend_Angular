@@ -1,0 +1,134 @@
+<!-- Індикатор завантаження -->
+<div *ngIf="isLoading || isLoadingFavorites" class="text-center">
+  <div class="spinner-border green-text" role="status">
+    <span class="sr-only">Завантаження...</span>
+  </div>
+</div>
+
+<!-- Контейнер з даними, коли вони завантажені -->
+<div *ngIf="!isLoading && !isLoadingFavorites" class="recipe-content">
+  <div class="recipe-content">
+    <div
+      class="text-center wow animate__animated animate__fadeInUp "
+    >
+      <h6 class="section-title bg-white text-center px-3 green-text">
+        Найпопулярніші автори
+      </h6>
+      <h1 class="mb-5">Зустрічайте резидентів Міста Рецептів</h1>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-2">
+    <!-- Динамічний рендеринг користувачів -->
+    <div
+      *ngFor="let user of users"
+      class="col-lg-3 col-md-6 wow animate__animated animate__fadeInUp "
+    >
+      <div class="team-item">
+        <div class="overflow-hidden hard-frame">
+          <!-- Замінити на зображення користувача -->
+          <img
+            class="img-fluid"
+            [src]="
+              user.profilePhotoUrl
+                ? user.profilePhotoUrl
+                : 'assets/images/app/noavatar.jpg'
+            "
+            alt="{{ user.firstName + ' ' + user.lastName }}"
+            (error)="user.profilePhotoUrl = 'assets/images/app/noavatar.jpg'"
+          />
+        </div>
+        <div class="d-flex border-bottom">
+          <small class="flex-fill text-center border-end py-2">
+            <i class="fa fa-map-marker-alt green-text me-2"></i
+            >{{ user.country + ", " + user.city }}
+          </small>
+          <small class="flex-fill text-center border-end py-2">
+            <i class="fa fa-calendar-alt green-text me-2"></i>Резидент
+            {{ calculateResidenceDuration(user.registrationDate) }}
+          </small>
+        </div>
+        <div class="text-center p-4">
+          <h5 class="mb-0">{{ user.firstName + " " + user.lastName }}</h5>
+          <div class="mb-3 green-text">
+            <!-- Рендеринг зірок рейтингу -->
+            <ng-container
+              *ngFor="
+                let star of [].constructor(
+                  getRatingStars(user.rating ?? 0).full
+                )
+              "
+            >
+              <small
+                class="fa fa-solid fa-star"
+                style="display: inline-block"
+              ></small>
+              <!-- Повна зірочка -->
+            </ng-container>
+
+            <ng-container *ngIf="getRatingStars(user.rating ?? 0).half">
+              <small
+                class="fa fa-solid fa-star-half-alt"
+                style="display: inline-block"
+              ></small>
+              <!-- Половинчаста зірочка -->
+            </ng-container>
+
+            <ng-container
+              *ngFor="
+                let star of [].constructor(
+                  getRatingStars(user.rating ?? 0).empty
+                )
+              "
+            >
+              <small
+                class="fa fa-regular fa-star"
+                style="display: inline-block"
+              ></small>
+              <!-- Порожня зірочка -->
+            </ng-container>
+						<ng-container *ngIf="(user.rating ? user.rating : 0) > 0">
+							<small style="display: inline-block">
+								{{ " | " + (user.rating ? user.rating.toFixed(1) : "0.0") }}
+							</small>
+						</ng-container>
+          </div>
+          <div class="d-flex justify-content-center mb-2">
+            <a
+              [routerLink]="['/authors', user.id]"
+              class="btn btn-sm btn-primary px-3 border-end"
+              style="border-radius: 30px 0 0 30px; color: white"
+            >
+              Сторінка шефа
+            </a>
+            <a
+              *ngIf="isLoggedin"
+              (click)="toggleFavoriteAuthor(user)"
+              class="btn btn-sm btn-primary px-3"
+              style="border-radius: 0 30px 30px 0; color: white"
+            >
+              {{ user.isfavorited ? "Видалити з обраних" : "Додати в обрані" }}
+            </a>
+            <a
+              *ngIf="!isLoggedin"
+              [routerLink]="['/login']"
+              class="btn btn-sm btn-primary px-3"
+              style="border-radius: 0 30px 30px 0; color: white"
+            >
+              Додати в обрані
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Лінк для завантаження більше авторів -->
+  <div class="text-center wow animate__animated animate__fadeInUp">
+    <a
+      [routerLink]="['/authors']"
+      class="text-center px-3 green-text wow animate__animated animate__fadeInUp"
+      >Більше авторів</a
+    >
+  </div>
+</div>

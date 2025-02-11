@@ -1,0 +1,109 @@
+<div class="container-xxl py-4">
+  <div class="recipe-content">
+    <div class="text-center wow animate__animated animate__fadeInUp">
+      <h6 class="section-title bg-white text-center px-3 green-text">
+        {{
+          status === "active"
+            ? "Активні конкурси"
+            : status === "completed"
+            ? "Завершені конкурси"
+            : ""
+        }}
+      </h6>
+      <h1 class="mb-5">
+        {{
+          status === "active"
+            ? "У нас зараз проходять такі конкурси"
+            : status === "completed"
+            ? "Ці конкурси вже завершені, прогляньте, які рецепти перемогли"
+            : ""
+        }}
+      </h1>
+    </div>
+  </div>
+  <!-- Індикатор завантаження -->
+  <div *ngIf="isLoading" class="text-center">
+    <div class="spinner-border green-text" role="status">
+      <span class="sr-only">Завантаження...</span>
+    </div>
+  </div>
+
+  <!-- Контейнер з даними -->
+  <div *ngIf="!isLoading" class="container">
+    <div class="row g-4 mb-2">
+      <!-- Динамічний рендеринг конкурсів -->
+      <div
+        *ngFor="let contest of contests"
+        class="col-lg-6 col-md-12 wow animate__animated animate__fadeInUp"
+      >
+        <div class="team-item">
+          <div
+            class="overflow-hidden hard-frame"
+            [routerLink]="['/contests', contest.slug]"
+          >
+            <img
+              [src]="
+                contest.photoUrl
+                  ? contest.photoUrl
+                  : 'assets/images/app/nocontest.jpg'
+              "
+              alt="{{ contest.contestName }}"
+              (error)="contest.photoUrl = 'assets/images/app/norecepi.jpg'"
+            />
+          </div>
+
+          <div class="text-center p-4">
+            <h5 class="mb-0 green-text">{{ contest.contestName }}</h5>
+          </div>
+          <div class="text-center green-text">
+            <p class="text-secondary">
+              <i class="fa-regular fa-calendar green-text"></i> Дата початку:
+              {{ formatDate(contest.startDate) }}
+            </p>
+          </div>
+          <div class="text-center green-text">
+            <p class="text-secondary">
+              <i class="fa-regular fa-calendar green-text"></i> Дата закінчення:
+              {{ formatDate(contest.endDate) }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Повідомлення про завершення завантаження всіх конкурсів -->
+  <div *ngIf="!isLoading && contests.length > 0" class="text-center m-5">
+    <p *ngIf="status === 'active'">Всі відкриті конкурси завантажені</p>
+    <p *ngIf="status === 'comleted'">Всі завершені конкурси завантажені</p>
+  </div>
+  <div *ngIf="!isLoading && contests.length == 0" class="text-center m-5">
+    <p *ngIf="status === 'active'">
+      Відкритих конкурсів в нашому місті зараз немає
+    </p>
+    <p *ngIf="status === 'comleted'">Ще жоден конкурс не завершився</p>
+  </div>
+
+  <div
+    *ngIf="!isLoading && status === 'active'"
+    class="text-center wow animate__animated animate__fadeInUp"
+  >
+    <a
+      class="text-center m-5 px-3 green-text"
+      [routerLink]="['/contests/completed']"
+    >
+      Подивитися завершені конкурси
+    </a>
+  </div>
+  <div
+    *ngIf="!isLoading && status === 'completed'"
+    class="text-center wow animate__animated animate__fadeInUp"
+  >
+    <a
+      class="text-center m-5 px-3 green-text"
+      [routerLink]="['/contests/active']"
+    >
+      Подивитися поточні конкурси
+    </a>
+  </div>
+</div>

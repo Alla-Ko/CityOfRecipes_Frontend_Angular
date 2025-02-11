@@ -1,0 +1,104 @@
+<aside class="bg-light p-3 wow fadeInUp mb-2" >
+  <!-- Ваша логіка для бічної панелі -->
+  <div class="sidebar-content">
+    <h5 class="sidebar-title">Меню</h5>
+
+    <!-- Якщо користувач залогінений, покажемо більше опцій -->
+    <div *ngIf="isLoggedIn">
+      <ul class="list-unstyled">
+        <div
+          class="mb-3 wow animate__animated animate__fadeInUp "
+          [routerLink]="['/dashboard/my-recipes']"
+        >
+          <div class="service-item rounded pt-4">
+            <div class="p-4">
+              <i
+                class="fa-solid fa-3x fa-book"
+                style="color: var(--primary)"
+              ></i
+              ><i
+                class="fa-solid fa-2xl fa-utensils m-1"
+                style="color: var(--primary)"
+              ></i>
+              <h5 class="mb-3 mt-3">Мої рецепти</h5>
+              <p>Рецепти, якими Ви поділилися з містом</p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="mb-3 wow animate__animated animate__fadeInUp "
+          [routerLink]="['/dashboard/favourite-recipes']"
+        >
+          <div class="service-item rounded pt-4">
+            <div class="p-4">
+              <i
+                class="fa-solid fa-3x fa-blender"
+                style="color: var(--primary)"
+              ></i
+              ><i
+                class="fa-solid fa-lg fa-heart"
+                style="color: var(--primary)"
+              ></i>
+              <h5 class="mb-3 mt-3">Улюблені рецепти</h5>
+              <p>Пора спробувати щось приготувати</p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="mb-3 wow animate__animated animate__fadeInUp "
+          [routerLink]="['/dashboard/favourite-chefs']"
+        >
+          <div class="service-item rounded pt-4">
+            <div class="p-4">
+              <i
+                class="fa-solid fa-3x fa-user"
+                style="color: var(--primary)"
+              ></i
+              ><i
+                class="fa-solid fa-lg fa-heart"
+                style="color: var(--primary)"
+              ></i>
+              <h5 class="mb-3 mt-3">Улюблені автори</h5>
+              <p>Слідкуйте за новими рецептами майстрів кулінарної справи</p>
+            </div>
+          </div>
+        </div>
+      </ul>
+    </div>
+
+    <div class="mb-3 wow animate__animated animate__fadeInUp ">
+      <div class="rounded pt-4">
+        <div class="p-4">
+          <i
+            class="fa-solid fa-3x fa-hashtag"
+            style="color: var(--primary)"
+          ></i>
+          <h5 class="mb-3 mt-3">Пошук за хештегами</h5>
+
+          <div *ngIf="hashTags.length > 0; else loadingOrEmpty">
+            <div class="hashtag-container">
+              <a
+                class="service-item hashtag-item rounded p-1"
+                *ngFor="let tag of hashTags"
+                [routerLink]="['/recipes/tags', tag.replace('#', '')]"
+              >
+                {{ tag }}
+              </a>
+            </div>
+          </div>
+          <ng-template #loadingOrEmpty>
+            <div *ngIf="isLoading" class="loading-spinner">
+              Завантаження хештегів...
+            </div>
+            <div *ngIf="!isLoading && allHashLoaded && hashTags.length === 0">
+              <p>Хештегів не знайдено.</p>
+            </div>
+          </ng-template>
+
+          <span class="service-item rounded p-1"></span>
+        </div>
+      </div>
+    </div>
+    <!-- Якщо користувач не залогінений -->
+  </div>
+</aside>

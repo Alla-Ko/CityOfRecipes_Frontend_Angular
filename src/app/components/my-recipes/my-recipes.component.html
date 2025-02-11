@@ -1,0 +1,111 @@
+<div class="container-xxl py-4">
+  <div class="recipe-content">
+    <div class="text-center wow animate__animated animate__fadeInUp">
+      <h6 class="section-title bg-white text-center px-3 green-text">
+        Ваші рецепти
+      </h6>
+      <h1 class="mb-5">Смакуйте разом з нами!</h1>
+    </div>
+  </div>
+  <!-- Індикатор завантаження -->
+  <div *ngIf="isLoading && recipes.length == 0" class="text-center">
+    <div class="spinner-border green-text" role="status">
+      <span class="sr-only">Завантаження...</span>
+    </div>
+  </div>
+
+  <!-- Контейнер з даними -->
+  <div *ngIf="!isStartLoading" class="container">
+    <div class="row g-4 mb-2">
+      <!-- Динамічний рендеринг користувачів -->
+      <div
+        *ngFor="let recipe of recipes"
+        class="col-lg-6 col-md-12 wow animate__animated animate__fadeInUp"
+      >
+        <div class="team-item">
+          <div
+            class="overflow-hidden hard-frame"
+            [routerLink]="['/recipes', recipe.slug]"
+          >
+            <img
+              [src]="
+                recipe.photoUrl
+                  ? recipe.photoUrl
+                  : 'assets/images/app/norecepi.jpg'
+              "
+              alt="{{ recipe.recipeName }}"
+              (error)="recipe.photoUrl = 'assets/images/app/norecepi.jpg'"
+            />
+          </div>
+
+          <div class="text-center p-4">
+            <h5 class="mb-0">{{ recipe.recipeName }}</h5>
+            <div class="mb-3 green-text">
+              <ng-container
+                *ngFor="
+                  let star of [].constructor(
+                    getRatingStars(recipe.averageRating ?? 0).full
+                  )
+                "
+              >
+                <small
+                  class="fa fa-solid fa-star"
+                  style="display: inline-block"
+                ></small>
+              </ng-container>
+
+              <ng-container
+                *ngIf="getRatingStars(recipe.averageRating ?? 0).half"
+              >
+                <small
+                  class="fa fa-solid fa-star-half-alt"
+                  style="display: inline-block"
+                ></small>
+              </ng-container>
+
+              <ng-container
+                *ngFor="
+                  let star of [].constructor(
+                    getRatingStars(recipe.averageRating ?? 0).empty
+                  )
+                "
+              >
+                <small
+                  class="fa fa-regular fa-star"
+                  style="display: inline-block"
+                ></small>
+              </ng-container>
+              <ng-container
+                *ngIf="recipe.averageRating ? recipe.averageRating : 0 > 0"
+              >
+                <small style="display: inline-block">
+                  {{ " | " + (recipe.averageRating ? recipe.averageRating.toFixed(1) : "0.0") }}
+                </small>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Нескінченний скролінг -->
+  <div *ngIf="isLoading&&recipes.length>0" class="text-center mt-4">
+    <div class="spinner-border green-text" role="status">
+      <span class="sr-only">Завантаження...</span>
+    </div>
+  </div>
+  <!-- Повідомлення про завершення завантаження всіх авторів -->
+  <div *ngIf="allRecipesLoaded && recipes.length > 0" class="text-center">
+    <p>Всі Ваші рецепти завантажені</p>
+  </div>
+  <div *ngIf="allRecipesLoaded && recipes.length == 0" class="text-center">
+    <p>У Вас ще немає рецептів</p>
+  </div>
+
+  <div *ngIf="!isLoading" class="text-center wow animate__animated animate__fadeInUp">
+    <a class="text-center m-5 px-3 green-text" [routerLink]="['/recipes']">
+      Подивитися всі рецепти нашого міста
+    </a>
+  </div>
+</div>

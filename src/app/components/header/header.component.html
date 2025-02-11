@@ -1,0 +1,35 @@
+<div class="container py-1">
+  <div class="row justify-content-center py-5">
+    <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
+      <h1
+        class="display-3 text-white mb-3 wow animate__animated animate__fadeInLeft"
+      >
+        {{ pageTitle }}
+      </h1>
+      <p
+        class="fs-4 text-white mb-4 wow animate__animated animate__fadeInRight"
+      >
+        {{ pageDescription }}
+      </p>
+      <div class="position-relative w-75 mx-auto animated slideInDown">
+        <input
+          class="form-control border-0 rounded-pill w-100 py-3 ps-4 pe-5"
+					(keydown.enter)="searchRecipes()"
+          type="text"
+          name="searchString"
+          id="searchString"
+          [(ngModel)]="searchString"
+          placeholder="Що будем шукати?"
+        />
+        <button
+          type="button"
+          class="btn btn-primary rounded-pill py-2 px-4 position-absolute top-0 end-0 me-2"
+          style="margin-top: 7px"
+          (click)="searchRecipes()"
+        >
+           Пошук
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

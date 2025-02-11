@@ -1,0 +1,53 @@
+<div class="swiper">
+  <!-- Additional required wrapper -->
+  <div class="swiper-wrapper">
+    <!-- Slides -->
+    <div class="swiper-slide" *ngFor="let slide of slides">
+      <div class="bg-white text-center border p-4 carousel-frame">
+        <img
+          class="flex-fill"
+          [src]="slide.article_img"
+          alt="{{ slide.name }}"
+        />
+        <div class="bg-white fw-bold py-1 px-2">
+          <a class="text-center m-5 px-3 green-text" href="">
+            <h3 class="bg-transparent green-text fw-bold">{{ slide.text }}</h3>
+          </a>
+        </div>
+
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+          "
+        >
+          <!-- Колонка для фото -->
+          <div style="flex-shrink: 0; margin-right: 10px">
+            <img
+              class="bg-white rounded-circle shadow p-1"
+              [src]="slide.img"
+              alt="{{ slide.name }}"
+              style="width: 70px; height: 70px"
+            />
+          </div>
+
+          <!-- Колонка для тексту (ім'я та адреса) -->
+          <div>
+            <h6 class="mb-0">{{ slide.name }}</h6>
+            <p>{{ slide.location }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- If we need pagination -->
+  <div class="swiper-pagination green-text"></div>
+
+  <!-- If we need navigation buttons -->
+  <div class="swiper-button-prev green-text"></div>
+  <div class="swiper-button-next green-text"></div>
+
+  <!-- If we need scrollbar -->
+  <div class="swiper-scrollbar "></div>
+</div>

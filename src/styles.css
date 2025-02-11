@@ -1,0 +1,841 @@
+/* You can add global styles to this file, and also import other style files */
+/*@import "animate.css/animate.min.css";
+/********** Template CSS **********/
+:root {
+  --primary: #86b817;
+  --hover: #9ad222;
+  --secondary: #fe8800;
+  --light: #f5f5f5;
+  --dark: #14141f;
+  --ptext: #808b8d;
+}
+html {
+  font-family: "Inter", sans-serif !important;
+}
+
+.fw-medium {
+  font-weight: 600 !important;
+}
+
+.fw-semi-bold {
+  font-weight: 700 !important;
+}
+
+.back-to-top {
+  position: fixed;
+  display: none;
+  right: 45px;
+  bottom: 45px;
+  z-index: 99;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+label,
+nav-item,
+dropdown-item,
+::placeholder {
+  font-family: "Nunito", sans-serif;
+}
+.h1-brand,
+.green-text,
+.text-primary {
+  color: var(--primary) !important;
+}
+.dark-text {
+  color: var(--dark) !important;
+}
+p {
+  color: var(--ptext);
+}
+.h1-brand:hover {
+  color: var(--hover) !important;
+}
+
+/*** Spinner ***/
+#spinner {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-out, visibility 0s linear 0.5s;
+  z-index: 99999;
+}
+
+#spinner.show {
+  transition: opacity 0.5s ease-out, visibility 0s linear 0s;
+  visibility: visible;
+  opacity: 1;
+}
+
+/*** Button ***/
+.btn {
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+  transition: 0.5s;
+  min-width: 120;
+}
+
+.btn.btn-primary,
+.btn.btn-secondary {
+  color: #ffffff;
+  font-family: "Nunito", sans-serif;
+  background-color: var(--primary) !important;
+  border: none;
+}
+.btn:hover {
+  background-color: var(--hover) !important;
+}
+.btn-square {
+  width: 38px;
+  height: 38px;
+}
+
+.btn-sm-square {
+  width: 32px;
+  height: 32px;
+}
+
+.btn-lg-square {
+  width: 48px;
+  height: 48px;
+}
+
+.btn-square,
+.btn-sm-square,
+.btn-lg-square {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: normal;
+  border-radius: 0px;
+}
+
+/*** transition: background-colobar ***/
+.navbar-light .navbar-nav .nav-link {
+  font-family: "Nunito", sans-serif;
+  position: relative;
+  margin-right: 20px;
+  padding: 35px 0;
+  color: #ffffff !important;
+
+  font-size: 18px;
+  font-weight: 600;
+  outline: none;
+  transition: 0.5s;
+}
+
+.sticky-top.navbar-light .navbar-nav .nav-link {
+  padding: 20px 0;
+  color: var(--dark) !important;
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link.active {
+  color: var(--primary) !important;
+}
+
+.navbar-light .navbar-brand img {
+  max-height: 60px;
+  transition: 0.5s;
+}
+
+.sticky-top.navbar-light .navbar-brand img {
+  max-height: 45px;
+}
+
+@media (max-width: 991.98px) {
+  .sticky-top.navbar-light {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: #ffffff !important;
+  }
+
+  .navbar-light {
+    position: relative;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: #ffffff !important;
+  }
+  .navbar-light .navbar-collapse {
+    margin-top: 15px;
+    border-top: 1px solid #dddddd;
+  }
+
+  .navbar-light .navbar-nav .nav-link,
+  .sticky-top.navbar-light .navbar-nav .nav-link {
+    padding: 10px 0;
+    margin-left: 0;
+    color: var(--dark) !important;
+  }
+
+  .navbar-light .navbar-brand img {
+    max-height: 45px;
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar-light {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    border-bottom: 1px solid rgba(256, 256, 256, 0.1);
+    z-index: 999;
+    background: transparent;
+    background-color: transparent;
+  }
+
+  .sticky-top.navbar-light {
+    position: fixed;
+    background: #ffffff;
+  }
+
+  .navbar-light .navbar-nav .nav-link::before {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 2px;
+    bottom: -1px;
+    left: 50%;
+    background: var(--primary);
+    transition: 0.5s;
+  }
+
+  .navbar-light .navbar-nav .nav-link:hover::before,
+  .navbar-light .navbar-nav .nav-link.active::before {
+    width: calc(100% - 2px);
+    left: 1px;
+  }
+
+  .navbar-light .navbar-nav .nav-link.nav-contact::before {
+    display: none;
+  }
+  #main-navbar {
+    position: absolute;
+    top: 40;
+    z-index: 999;
+  }
+  #main-navbar.sticky-top.navbar-light {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+  }
+}
+
+/*** Hero Header ***/
+.main-header {
+  background: linear-gradient(rgba(20, 20, 31, 0.7), rgba(20, 20, 31, 0.7)),
+    url(assets/images/app/bg-main.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/*** Section Title ***/
+.section-title {
+  position: relative;
+  display: inline-block;
+  width: max-content;
+  text-transform: uppercase;
+  background: white;
+}
+
+.section-title::before {
+  position: absolute;
+  content: "";
+  width: calc(100% + 80px);
+  height: 2px;
+  top: 4px;
+  left: -40px;
+  background: var(--primary) !important;
+
+  z-index: -1;
+}
+
+.section-title::after {
+  position: absolute;
+  content: "";
+  width: calc(100% + 120px);
+  height: 2px;
+  bottom: 5px;
+  left: -60px;
+  background: var(--primary) !important;
+  z-index: -1;
+}
+
+.section-title.text-start::before {
+  width: calc(100% + 40px);
+  left: 0;
+
+  background: var(--primary) !important;
+  z-index: -1;
+}
+
+.section-title.text-start::after {
+  width: calc(100% + 60px);
+  left: 0;
+
+  background: var(--primary) !important;
+  z-index: -1;
+}
+
+/*** Service ***/
+.service-item {
+  box-shadow: 0 0 45px rgba(0, 0, 0, 0.08);
+  transition: 0.5s;
+}
+
+.service-item:hover,
+.hashtag-item:hover {
+  background: var(--primary);
+}
+
+.service-item * {
+  transition: 0.5s;
+}
+
+.service-item:hover * {
+  color: var(--light) !important;
+}
+
+/*** Destination ***/
+.destination img {
+  transition: 0.5s;
+}
+
+.destination a:hover img {
+  transform: scale(1.1);
+}
+
+/*** Package ***/
+.package-item {
+  box-shadow: 0 0 45px rgba(0, 0, 0, 0.08);
+}
+
+.package-item img {
+  transition: 0.5s;
+}
+
+.package-item:hover img {
+  transform: scale(1.1);
+}
+
+/*** Booking ***/
+.booking {
+  background: linear-gradient(rgba(15, 23, 43, 0.7), rgba(15, 23, 43, 0.7)),
+    url(assets/images/app/bg-main.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/*** Team ***/
+.team-item {
+  box-shadow: 0 0 45px rgba(0, 0, 0, 0.08);
+}
+
+.team-item img {
+  transition: 0.5s;
+}
+
+.team-item:hover img {
+  transform: scale(1.1);
+}
+
+.team-item .btn {
+  background: #ffffff;
+  color: var(--primary);
+  border-radius: 20px;
+  border-bottom: 1px solid var(--primary);
+}
+
+.team-item .btn:hover {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+/*** Testimonial ***/
+.testimonial-carousel::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  z-index: 1;
+}
+
+.testimonial-carousel::after {
+  position: absolute;
+  content: "";
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(
+    to left,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  z-index: 1;
+}
+
+@media (min-width: 768px) {
+  .testimonial-carousel::before,
+  .testimonial-carousel::after {
+    width: 200px;
+  }
+}
+
+@media (min-width: 992px) {
+  .testimonial-carousel::before,
+  .testimonial-carousel::after {
+    width: 300px;
+  }
+}
+
+.testimonial-carousel .owl-item .testimonial-item,
+.testimonial-carousel .owl-item.center .testimonial-item * {
+  transition: 0.5s;
+}
+
+.testimonial-carousel .owl-item.center .testimonial-item {
+  background: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+
+.testimonial-carousel .owl-item.center .testimonial-item * {
+  color: #ffffff !important;
+}
+
+.testimonial-carousel .owl-dots {
+  margin-top: 24px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.testimonial-carousel .owl-dot {
+  position: relative;
+  display: inline-block;
+  margin: 0 5px;
+  width: 15px;
+  height: 15px;
+  border: 1px solid #cccccc;
+  border-radius: 15px;
+  transition: 0.5s;
+}
+
+.testimonial-carousel .owl-dot.active {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+/*** Footer ***/
+.footer .btn.btn-social {
+  margin-right: 5px;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--light);
+  font-weight: normal;
+  border: 1px solid #ffffff;
+  border-radius: 35px;
+  transition: 0.3s;
+}
+
+.footer .btn.btn-social:hover {
+  color: var(--primary);
+}
+
+.footer .btn.btn-link {
+  display: block;
+  margin-bottom: 5px;
+  padding: 0;
+  text-align: left;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: normal;
+  text-transform: capitalize;
+  transition: 0.3s;
+}
+
+.footer .btn.btn-link::before {
+  position: relative;
+  content: "\f105";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  margin-right: 10px;
+}
+
+.footer .btn.btn-link:hover {
+  letter-spacing: 1px;
+  box-shadow: none;
+}
+
+.footer .copyright {
+  padding: 25px 0;
+  font-size: 15px;
+  border-top: 1px solid rgba(256, 256, 256, 0.1);
+}
+
+.footer .copyright a {
+  color: var(--light);
+}
+
+.footer .footer-menu a {
+  margin-right: 15px;
+  padding-right: 15px;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer .footer-menu a:last-child {
+  margin-right: 0;
+  padding-right: 0;
+  border-right: none;
+}
+a.service-item.hashtag-item {
+  text-decoration: none; /* Прибирає підкреслення у посилання */
+  color: inherit; /* Використовує стандартний колір тексту */
+  display: inline-block; /* Відображає тег, як блок */
+  cursor: pointer; /* Робить вказівник у вигляді руки при наведенні */
+}
+
+a.service-item.hashtag-item:hover {
+  transform: scale(1.15); /* Збільшення розміру при наведенні */
+}
+
+.hard-frame {
+  width: 100%; /* Контейнер займатиме всю доступну ширину */
+  height: 400px; /* Висота контейнера */
+  overflow: hidden; /* Приховує вихідні частини зображення */
+  position: relative; /* Для точного розташування вмісту */
+}
+.hard-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Зображення заповнює контейнер, обрізаючись при потребі */
+  object-position: center; /* Центрує зображення в межах контейнера */
+}
+.newest-recepie-frame {
+  width: 100%; /* Контейнер займатиме всю доступну ширину */
+  height: 400px; /* Висота контейнера */
+  overflow: hidden; /* Приховує вихідні частини зображення */
+  position: relative; /* Для точного розташування вмісту */
+}
+.newest-recepie-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Зображення заповнює контейнер, обрізаючись при потребі */
+  object-position: center; /* Центрує зображення в межах контейнера */
+}
+.preview-item img {
+  transition: 0.5s;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Зображення заповнює контейнер, обрізаючись при потребі */
+  object-position: center; /* Центрує зображення в межах контейнера */
+}
+.preview-item:hover img {
+  transform: scale(1.1);
+}
+.carousel-frame {
+  width: 80%; /* Контейнер займатиме всю доступну ширину */
+  height: 500px; /* Висота контейнера */
+
+  overflow: hidden; /* Приховує вихідні частини зображення */
+  position: relative; /* Для точного розташування вмісту */
+
+  margin: 0 auto;
+  display: block;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-frame img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover; /* Зображення заповнює контейнер, обрізаючись при потребі */
+  object-position: center; /* Центрує зображення в межах контейнера */
+}
+.swiper-pagination-bullet-active {
+  background-color: var(--primary) !important;
+}
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px; /* Перемістили на правий кут */
+  width: 50px;
+  height: 50px;
+  background-color: var(--primary); /* Зелений колір */
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0; /* Початкова невидимість */
+  transform: scale(0.8); /* Початковий масштаб */
+  z-index: 1000; /* Забезпечує видимість поверх інших елементів */
+}
+
+.scroll-to-top:hover {
+  background-color: var(--hover); /* Трохи темніший зелений при наведенні */
+}
+
+.scroll-to-top.show {
+  opacity: 1; /* Покажемо кнопку */
+  transform: scale(1); /* Відновимо розмір */
+}
+
+/* Стилі для підсвічування випадаючого меню */
+
+.dropdown-item:hover {
+  background-color: var(--primary) !important; /* Зелене підсвічування */
+  color: #ffffff !important; /* Біла строка для контрасту */
+}
+
+/* Стилі для активного елемента */
+
+.dropdown-item.active {
+  background-color: var(
+    --primary
+  ) !important; /* Зелене підсвічування при активному елементі */
+  color: #ffffff !important; /* Біла строка */
+}
+
+
+.quill-container .ql-editor {
+  /* max-height: 200px; Максимальна висота текстового редактора */
+  /* overflow-y: auto;  Увімкнути вертикальну прокрутку */
+
+  /* box-sizing: border-box; Уникнути розширення через padding */
+
+  border-radius: 4px;
+  width: 100%;
+}
+.material {
+  position: relative; /* Забезпечує локальну прив'язку для абсолютно позиціонованих елементів */
+  z-index: 1; /* Гарантує, що основний контейнер не має високого індексу */
+}
+
+.material .mat-option {
+  z-index: 1000; /* Випадаючий список поверх інших елементів */
+  background-color: white; /* Перекриття фону */
+}
+
+.mat-autocomplete-panel {
+  z-index: 1050 !important; /* Вищий пріоритет для випадаючого списку */
+  background-color: white !important; /* Забезпечення білого фону */
+  border: 1px solid #ccc; /* Додатковий стиль для візуального відділення */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Тінь для відділення */
+}
+
+.mat-autocomplete {
+  position: absolute; /* Обов'язково для позиціонування */
+  top: 100%; /* Щоб випадаючий список відкривався знизу від інпута */
+  left: 0;
+  right: 0;
+}
+
+/* Ховаємо стандартний чекбокс */
+.custom-checkbox {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--primary) !important;
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+
+/* Додаємо заливку при виборі */
+.custom-checkbox:checked {
+  background-color: var(--primary) !important;
+}
+
+/*Сторінка рецепта*/
+.recipe-container {
+  position: relative;
+  min-height: 150vh; /* Мінімальна висота – весь екран */
+  margin-left: 60px;
+
+  padding: 20px; /* Щоб контент не прилипав до країв */
+  box-shadow: 0 0 45px rgba(0, 0, 0, 0.08);
+  transition: 0.5s;
+  justify-content: center;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px; /* Фіксована ширина картинки */
+    height: 100%;
+    margin-top: 20px;
+
+    margin-left: -22px;
+    background-image: url("assets/images/app/spring.png");
+    background-repeat: repeat-y;
+    background-size: contain;
+    pointer-events: none; /* Щоб не заважало клікам */
+    z-index: 100; /* Щоб було позаду контенту */
+  }
+}
+.contest-container {
+  position: relative;
+  min-height: 150vh; /* Мінімальна висота – весь екран */
+  margin-left: 30px;
+
+  padding: 20px; /* Щоб контент не прилипав до країв */
+  box-shadow: 0 0 45px rgba(0, 0, 0, 0.08);
+  transition: 0.5s;
+  justify-content: center;
+
+
+}
+
+.recipe-content {
+  margin-top: 20px;
+  margin-left: 50px;
+
+  position: relative; /* Щоб контент був поверх фону */
+  z-index: 1;
+}
+/*** Recipe ***/
+.recipe-item {
+  margin-bottom: 20px;
+}
+
+.recipe-item img {
+  transition: 0.5s;
+}
+
+.recipe-item:hover img {
+  transform: scale(1.1);
+}
+
+.recipe-item .btn {
+  background: #ffffff;
+  color: var(--primary);
+  border-radius: 20px;
+  border-bottom: 1px solid var(--primary);
+}
+
+.recipe-item .btn:hover {
+  background: var(--primary);
+  color: #ffffff;
+}
+.about-item {
+  margin-bottom: 20px;
+  max-width: 100%; /* Обмежуємо максимальну ширину контейнера */
+  overflow: hidden; /* Перехоплює вміст, що виходить за межі */
+  word-wrap: break-word; /* Розбиває слова, якщо вони надто довгі */
+}
+
+.about-item img {
+  width: 70%; /* Робимо зображення гнучким, щоб воно зменшувалося по ширині */
+  height: auto; /* Зберігаємо пропорції зображення */
+  object-fit: contain; /* Зображення не обрізається, а зменшується, щоб повністю вписатися в контейнер */
+  display: block; /* Забезпечуємо, щоб зображення відображалося як блочний елемент */
+  margin: 0 auto; /* Центруємо зображення по горизонталі */
+  transition: 0.5s;
+}
+.about-item iframe {
+  width: 560px;
+  height: 315px;
+  object-fit: contain; /* Зображення не обрізається, а зменшується, щоб повністю вписатися в контейнер */
+  display: block; /* Забезпечуємо, щоб зображення відображалося як блочний елемент */
+  margin: 0 auto; /* Центруємо зображення по горизонталі */
+  transition: 0.5s;
+}
+
+/* .about-item:hover img {
+  transform: scale(1.1);
+} */
+
+.hard-frame-recipe {
+  /*height: 50vh;  Висота контейнера */
+  width: 100%; /* Контейнер займатиме всю доступну ширину */
+  overflow: hidden; /* Приховує вихідні частини зображення */
+  position: relative; /* Для точного розташування вмісту */
+  margin: 0 auto;
+}
+.hard-frame-recipe img {
+  /* width: 100%;
+  height: 100%; */
+
+  /*object-fit: cover;  Зображення заповнює контейнер, обрізаючись при потребі */
+  /*object-position: center;  Центрує зображення в межах контейнера */
+  width: 70%; /* Робимо зображення гнучким, щоб воно зменшувалося по ширині */
+  height: auto; /* Зберігаємо пропорції зображення */
+  object-fit: contain; /* Зображення не обрізається, а зменшується, щоб повністю вписатися в контейнер */
+  display: block; /* Забезпечуємо, щоб зображення відображалося як блочний елемент */
+  margin: 0 auto; /* Центруємо зображення по горизонталі */
+}
+.author-frame {
+  width: 100%; /* Контейнер займатиме всю доступну ширину */
+  height: 100%; /* Висота контейнера */
+
+  overflow: hidden; /* Приховує вихідні частини зображення */
+  position: relative; /* Для точного розташування вмісту */
+  padding-bottom: 20px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.author-frame img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover; /* Зображення заповнює контейнер, обрізаючись при потребі */
+  object-position: center; /* Центрує зображення в межах контейнера */
+}
+.author-details {
+  display: block;
+  justify-content: left;
+}
+
+.favorite-icon {
+  position: absolute;
+
+  right: 25px;
+
+  cursor: pointer; /* Курсор у вигляді руки */
+  z-index: 150; /* Щоб було поверх усього */
+  transition: color 0.3s ease-in-out;
+}
+
+.favorite-icon:hover {
+  transform: scale(1.1);
+  transition: 0.3s ease-in-out;
+}
+label {
+  padding-right: 10px;
+}

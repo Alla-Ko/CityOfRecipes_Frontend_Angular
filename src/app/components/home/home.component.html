@@ -1,0 +1,253 @@
+<!-- About Start -->
+<div class="container-xxl py-4">
+  <div class="container">
+    <div class="row g-5">
+      <div
+        class="col-lg-6 wow animate__animated animate__fadeInUp"
+        style="min-height: 400px"
+      >
+        <div class="position-relative h-100">
+          <img
+            class="img-fluid position-absolute w-100"
+            src="https://res.cloudinary.com/duswhjnua/image/upload/v1739229384/cld-sample-4.jpg"
+            alt=""
+            style="object-fit: cover"
+          />
+        </div>
+      </div>
+      <div class="col-lg-6 wow animate__animated animate__fadeInUp">
+        <div class="recipe-content">
+          <h6 class="section-title text-start pe-3 green-text">Про нас</h6>
+          <h1 class="mb-4">
+            Вітаємо в <span class="green-text">Місті рецептів!</span>
+          </h1>
+        </div>
+        <p class="mb-4">
+          Заходьте на нашу кухню! Тут, серед ароматів та неймовірних смаків, ми
+          разом створюємо кулінарні шедеври, ділимося порадами і надихаємо один
+          одного на нові кулінарні відкриття.
+        </p>
+        <p class="mb-4">
+          Створюйте, діліться і знаходьте натхнення у кожній страві!
+        </p>
+        <div class="row gy-2 gx-4 mb-4">
+          <div class="col-sm-6">
+            <p class="mb-0">
+              <i class="fa fa-arrow-right green-text me-2"></i>Рецепти
+            </p>
+          </div>
+          <div class="col-sm-6">
+            <p class="mb-0">
+              <i class="fa fa-arrow-right green-text me-2"></i>Кулінарні
+              конкурси
+            </p>
+          </div>
+          <div class="col-sm-6">
+            <p class="mb-0">
+              <i class="fa fa-arrow-right green-text me-2"></i>Корисні поради
+            </p>
+          </div>
+          <div class="col-sm-6">
+            <p class="mb-0">
+              <i class="fa fa-arrow-right green-text me-2"></i>Натхнення на
+              кулінарні звершення
+            </p>
+          </div>
+        </div>
+        <a
+          *ngIf="isLoggedIn"
+          [routerLink]="['/recipes/new-recipe']"
+          class="btn btn-primary py-3 px-5 mt-2"
+          >Поділитися рецептом</a
+        >
+        <a
+          *ngIf="!isLoggedIn"
+          [routerLink]="['/login']"
+          class="btn btn-primary py-3 px-5 mt-2"
+          >Увійдіть, щоб поділитися рецептом</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Team Start -->
+<div class="container-xxl py-4">
+  <app-user></app-user>
+</div>
+<!-- Останні рецепти -->
+
+<app-home-recipes></app-home-recipes>
+
+<!-- Відкриті конкурси -->
+<div class="container-xxl py-4">
+  <div class="recipe-content">
+    <div class="text-center wow animate__animated animate__fadeInUp">
+      <h6 class="section-title bg-white text-center px-3 green-text">
+        Конкурси у місті рецептів
+      </h6>
+      <h1 class="mb-5">Оцінюйте рецепти і визначайте переможців!</h1>
+    </div>
+    <div class="row g-3">
+      <div
+        class="col-lg-6 col-md-12 wow animate__animated animate__zoomIn preview-item"
+        
+      >
+        <a
+          class="position-relative d-block overflow-hidden newest-recepie-frame"
+          [routerLink]="['contests/active']"
+        >
+          <img
+            class="img-fluid"
+            src="https://i.ibb.co/Rn5Syvz/30fd78d4-4fe7-4fa6-87c2-0304e4eef165.jpg"
+            alt=""
+          />
+
+          <div
+            class="bg-white dark-text fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2"
+          >
+            Активні конкурси рецептів
+          </div>
+        </a>
+      </div>
+      <div
+        class="col-lg-6 col-md-12 wow animate__animated animate__zoomIn preview-item"
+        
+      >
+        <a
+          class="position-relative d-block overflow-hidden newest-recepie-frame"
+          [routerLink]="['contests/completed']"
+        >
+          <img
+            class="img-fluid"
+            src="https://i.ibb.co/0p96phhn/20c2b3a6-6358-4bd9-b140-b3720916abab.jpg"
+            alt=""
+          />
+
+          <div
+            class="bg-white dark-text fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2"
+          >
+            Завершені конкурси рецептів
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Свята в Місті Рецептів -->
+<div class="container-xxl py-4">
+  <div class="recipe-content">
+    <div class="text-center wow animate__animated animate__fadeInUp">
+      <h6 class="section-title bg-white text-center px-3 green-text">
+        Свята в Місті Рецептів
+      </h6>
+      <h1 class="mb-5">Рецепти до свят</h1>
+    </div>
+    <div class="row g-3">
+      <div
+        class="col-lg-6 col-md-12 wow animate__animated animate__zoomIn preview-item"
+        
+      >
+        <a
+          class="position-relative d-block overflow-hidden newest-recepie-frame"
+          [routerLink]="['recipes/categories/christmas']"
+        >
+          <img
+            class="img-fluid"
+            src="https://i.lb.ua/041/15/61d4b4d86706b.jpeg"
+            alt=""
+          />
+
+          <div
+            class="bg-white dark-text fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2"
+          >
+            Різдво
+          </div>
+        </a>
+      </div>
+      <div
+        class="col-lg-6 col-md-12 wow animate__animated animate__zoomIn preview-item"
+        
+      >
+        <a
+          class="position-relative d-block overflow-hidden newest-recepie-frame"
+          [routerLink]="['recipes/categories/new-year']"
+        >
+          <img
+            class="img-fluid"
+            src="https://i.pinimg.com/736x/6f/9e/4f/6f9e4fcefd836ebe4122ad28b2cb9825.jpg"
+            alt=""
+          />
+
+          <div
+            class="bg-white dark-text fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2"
+          >
+            Новий рік
+          </div>
+        </a>
+      </div>
+      <div
+        class="col-lg-6 col-md-12 wow animate__animated animate__zoomIn preview-item"
+        
+      >
+        <a
+          class="position-relative d-block overflow-hidden newest-recepie-frame"
+          [routerLink]="['recipes/categories/easter']"
+        >
+          <img
+            class="img-fluid"
+            src="https://i.pinimg.com/736x/7a/c8/58/7ac8589d24d675860cc491bdaa858026.jpg"
+            alt=""
+          />
+
+          <div
+            class="bg-white dark-text fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2"
+          >
+            Великдень
+          </div>
+        </a>
+      </div>
+      <div
+        [routerLink]="['recipes/categories/children']"
+        class="col-lg-6 col-md-12 wow animate__animated animate__zoomIn preview-item"
+        
+      >
+        <a
+          class="position-relative d-block overflow-hidden newest-recepie-frame"
+          [routerLink]="['recipes/categories/children']"
+        >
+          <img
+            class="img-fluid"
+            src="https://i.pinimg.com/736x/85/73/4f/85734fd5551df3d7697330c3b21304f7.jpg"
+            alt=""
+          />
+
+          <div
+            class="bg-white dark-text fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2"
+          >
+            Дитяче свято
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Статті -->
+<!-- <div class="container-xxl py-4">
+  <div class="container">
+    <div class="text-center wow animate__animated animate__fadeInUp">
+      <div class="recipe-content">
+        <h6 class="section-title bg-white text-center px-3 green-text">
+          Цікаві статті
+        </h6>
+      </div>
+      <h1 class="mb-5">Цікаво про смачне і корисне</h1>
+    </div>
+    <app-carousel></app-carousel>
+    <div class="text-center wow animate__animated animate__fadeInUp">
+      <a class="text-center m-5 px-3 green-text" [routerLink]="['/articles']">
+        Більше статей
+      </a>
+    </div>
+  </div>
+</div> -->

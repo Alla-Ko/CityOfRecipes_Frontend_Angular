@@ -1,0 +1,225 @@
+<div *ngIf="myId && isEmailConfirmed && newRecipe" class="container-xxl py-4">
+  <!-- Фото профілю та кнопка заміни -->
+  <div class="wow animate__animated animate__fadeInUp m-3">
+    <div
+      class="d-flex justify-content-center"
+      style="max-width: 500px; margin: 0 auto"
+    >
+      <div class="team-item text-center">
+        <div class="overflow-hidden hard-frame">
+          <img
+            class="img-fluid"
+            [src]="
+              newRecipe.photoUrl
+                ? newRecipe.photoUrl
+                : 'assets/images/app/norecepi.jpg'
+            "
+            alt="{{ newRecipe.recipeName }}"
+            (error)="newRecipe.photoUrl = 'assets/images/app/norecepi.jpg'"
+          />
+        </div>
+        <button
+          class="btn btn-secondary m-2 text-white"
+          (click)="fileInput.click()"
+        >
+          Завантажити головне фото рецепта
+        </button>
+        <input
+          type="file"
+          #fileInput
+          class="d-none"
+          (change)="onImageSelected($event)"
+        />
+      </div>
+    </div>
+  </div>
+
+  <form (ngSubmit)="save()">
+    <div class="mb-3 wow animate__animated animate__fadeInUp m-3">
+      <!-- назва -->
+      <div class="mb-3 wow animate__animated animate__fadeInUp m-3">
+        <label for="recipeName" class="form-label green-text"
+          >Напишіть назву рецепта</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="recipeName"
+          [(ngModel)]="newRecipe.recipeName"
+          name="recipeName"
+          placeholder="Назва рецепта"
+        />
+      </div>
+      <!-- час приготування -->
+      <div class="mb-3 wow animate__animated animate__fadeInUp m-3">
+        <label for="preparationTimeMinutes" class="form-label green-text"
+          >Час приготування у хвилинах</label
+        >
+        <input
+          type="number"
+          class="form-control"
+          id="preparationTimeMinutes"
+          (input)="onTimeChange()"
+					(blur)="onTimeBlur()"
+          [(ngModel)]="newRecipe.preparationTimeMinutes"
+          name="preparationTimeMinutes"
+          placeholder="Наприклад, 60"
+          min="1"
+          step="1"
+        />
+      </div>
+      <!-- Список інгредієнтів -->
+      <div class="mb-3 wow animate__animated animate__fadeInUp m-3">
+        <label for="ingredientsList" class="form-label green-text"
+          >Список інгредієнтів</label
+        >
+        <textarea
+          class="form-control"
+          id="ingredientsList"
+          [(ngModel)]="newRecipe.ingredientsList"
+          name="ingredientsList"
+          rows="4"
+          placeholder="Наприклад, 
+						Помідори - 1кг,
+						Цибуля - 0,5 кг,
+						Сметана - 200г"
+        ></textarea>
+      </div>
+
+      <!-- Відео -->
+      <div class="mb-3 wow animate__animated animate__fadeInUp m-3">
+        <label for="videoUrl" class="form-label green-text"
+          >Вставте посилання на відео YouTube</label
+        >
+        <input
+          type="url"
+          class="form-control"
+          id="videoUrl"
+          [(ngModel)]="newRecipe.videoUrl"
+          name="videoUrl"
+          placeholder="https://www.youtube.com/watch?v=..."
+        />
+      </div>
+
+      <div *ngIf="getEmbedUrl(newRecipe.videoUrl)">
+        <iframe
+          [src]="getEmbedUrl(newRecipe.videoUrl)"
+          width="560"
+          height="315"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <!-- теги -->
+      <div class="mb-3 wow animate__animated animate__fadeInUp m-3">
+        <label for="tagsText" class="form-label green-text">Хештеги</label>
+        <input
+          type="text"
+          class="form-control"
+          id="tagsText"
+          [(ngModel)]="newRecipe.tagsText"
+          name="tagsText"
+          placeholder="Наприклад, #аерогриль #домашнякухня ..."
+        />
+      </div>
+      <!-- Категорія -->
+      <div
+        class="material mb-3 mt-4 wow animate__animated animate__fadeInUp m-3"
+      >
+        <label class="form-label green-text">Категорія рецепта</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="selectedCategory"
+          [matAutocomplete]="auto"
+          name="selectedCategory"
+          (input)="onCategoryInput($event)"
+          (blur)="onCategoryBlur()"
+          placeholder="Виберіть категорію"
+        />
+        <mat-autocomplete
+          class="mat-autocomplete-panel"
+          #auto="matAutocomplete"
+          [displayWith]="categoryDisplayWith"
+        >
+          <mat-option
+            class="mat-option"
+            *ngFor="let category of filteredCategories"
+            [value]="category"
+            style="z-index: 1000"
+            (click)="onCategorySelect(category)"
+          >
+            {{ category.categoryName }}
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+      <!-- Спосіб приготування -->
+      <div class="mb-3 mt-4 wow animate__animated animate__fadeInUp m-3">
+        <label class="form-label green-text">Спосіб приготування</label>
+        <div class="quill-container">
+          <quill-editor
+            [(ngModel)]="sanitizedInstructionsText"
+            name="sanitizedInstructionsText"
+            placeholder="Опишіть процес приготування, можете додати фото"
+          ></quill-editor>
+        </div>
+      </div>
+      <!-- Свята -->
+      <div class="mb-3 mt-4 wow animate__animated animate__fadeInUp m-3">
+        <label class="form-label green-text">Свято або нагода:</label>
+
+        <div class="wow animate__animated animate__fadeInUp">
+          <input
+            type="checkbox"
+            class="custom-checkbox"
+            id="christmas"
+            [(ngModel)]="newRecipe.isChristmas"
+						name="isChristmas"
+          />
+          <label class="form-label m-3" for="christmas">Різдво</label>
+        </div>
+
+        <div class="wow animate__animated animate__fadeInUp">
+          <input
+            type="checkbox"
+            class="custom-checkbox"
+            id="newyear"
+            [(ngModel)]="newRecipe.isNewYear"
+						name="isNewYear"
+          />
+          <label class="form-label m-3" for="newyear">Новий рік</label>
+        </div>
+
+        <div class="wow animate__animated animate__fadeInUp">
+          <input
+            type="checkbox"
+            class="custom-checkbox"
+            id="children"
+            [(ngModel)]="newRecipe.isChildren"
+						name="isChildren"
+          />
+          <label class="form-label m-3" for="children">Дитяче меню</label>
+        </div>
+
+        <div class="wow animate__animated animate__fadeInUp">
+          <input
+            type="checkbox"
+            class="custom-checkbox"
+            id="easter"
+            [(ngModel)]="newRecipe.isEaster"
+						name="isEaster"
+          />
+          <label class="form-label m-3" for="easter">Великдень</label>
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-secondary wow animate__animated animate__fadeInUp m-3"
+      >
+        Зберегти рецепт
+      </button>
+      <div *ngIf="errorMessage" style="color: red">{{ errorMessage }}</div>
+    </div>
+  </form>
+</div>

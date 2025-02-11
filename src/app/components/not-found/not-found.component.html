@@ -1,0 +1,16 @@
+<div class="not-found-container text-green text-center">
+  <div class="image-container mb-4">
+    <img
+      src="assets/images/app/404.jpg"
+      alt="404 Image"
+      class="img-fluid"
+      style="max-height: 60vh; object-fit: contain"
+    />
+  </div>
+  <h6>Упс, такої адреси у нашому місті немає!</h6>
+  <div class="d-flex justify-content-center gap-3">
+    <button class="btn btn-primary" (click)="goHome()">На головну</button>
+    <button class="btn btn-primary" (click)="goToRecipes()">До рецептів</button>
+    <button class="btn btn-primary" (click)="goToAuthors()">До авторів</button>
+  </div>
+</div>

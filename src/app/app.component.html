@@ -1,0 +1,130 @@
+<div
+  class="scroll-to-top"
+  [ngClass]="{ show: showScrollToTop }"
+  (click)="scrollToTop()"
+>
+  <i class="fa fa-arrow-up"></i>
+</div>
+<header>
+  <!-- Topbar Start -->
+  <div class="container-fluid bg-dark px-5 d-none d-lg-block">
+    <div class="row gx-0">
+      <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
+        <div class="d-inline-flex align-items-center" style="height: 45px">
+          <small class="me-3 text-light"
+            ><i class="fa fa-utensils me-2"></i>Місто, де смакує життя!
+          </small>
+          <small class="me-3 text-light"
+            ><i class="fa fa-map-marker-alt me-2"></i>Твоя кулінарна подорож
+            починається тут!</small
+          >
+        </div>
+      </div>
+      <div class="col-lg-4 text-center text-lg-end">
+        <app-social-share></app-social-share>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar & Hero Start -->
+  <div class="container-fluid position-relative p-0">
+    <app-navbar></app-navbar>
+    <div class="container-fluid bg-primary py-3 mb-5 main-header">
+      <app-header></app-header>
+    </div>
+  </div>
+</header>
+
+<div class="container-fluid main-container">
+  <div class="row">
+    <!-- Основний контент -->
+    <main class="col-12 col-md-9 col-lg-10 bg-light p-3">
+      <router-outlet>
+        <!-- Основний контент -->
+      </router-outlet>
+    </main>
+
+    <!-- Бічне меню -->
+    <aside class="col-12 col-md-3 col-lg-2 bg-light p-3">
+      <app-aside></app-aside>
+    </aside>
+  </div>
+</div>
+<!-- Футер -->
+<footer class="bg-dark text-white text-center p-4">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Колонка першого розробника -->
+      <div class="col-md-5">
+        <h5 class="text-white">Backend розробка</h5>
+        <p><i class="fa fa-user me-2"></i>Вадим Анкуца</p>
+        <p>
+          <i class="fa fa-envelope me-2"></i>
+          <a href="mailto: vadimancuta@&#64;gmail.com" class="text-secondary"
+            >vadimancuta&#64;gmail.com</a
+          >
+        </p>
+        <p>
+          <i class="fa fa-brands fa-github me-2"></i>
+          <a
+            href="https://github.com/Vadymca"
+            class="text-secondary"
+            target="_blank"
+            >github.com/Vadymca</a
+          >
+        </p>
+      </div>
+
+      <!-- Вертикальна риска -->
+      <div class="col-md-2 d-none d-md-block">
+        <div class="vertical-line"></div>
+      </div>
+
+      <!-- Колонка другого розробника -->
+      <div class="col-md-5">
+        <h5 class="text-white">Frontend розробка та дизайн</h5>
+        <p><i class="fa fa-user me-2"></i> Алла Коханюк</p>
+        <p>
+          <i class="fa fa-envelope me-2"></i>
+          <a href="mailto:alla.kohanjuk&#64;gmail.com" class="text-secondary"
+            >alla.kohanjuk&#64;gmail.com</a
+          >
+        </p>
+        <p>
+          <i class="fa fa-brands fa-github me-2"></i>
+          <a
+            href="https://github.com/Alla-Ko"
+            class="text-secondary"
+            target="_blank"
+            >github.com/Alla-Ko</a
+          >
+        </p>
+      </div>
+    </div>
+
+    <hr class="bg-light" />
+    <p class="mt-3">&copy; 2024 Місто рецептів. Всі права захищено.</p>
+  </div>
+</footer>
+
+<!-- Підключення Font Awesome (якщо ще не підключений) -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+/>
+
+<!-- CSS для вертикальної лінії -->
+<style>
+  .vertical-line {
+    width: 2px;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, white, transparent);
+    margin: auto;
+  }
+</style>
+
+<!-- Підключення Font Awesome (якщо ще не підключений) -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+/>

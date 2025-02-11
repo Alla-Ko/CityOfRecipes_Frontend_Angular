@@ -1,0 +1,143 @@
+<div class="container-xxl py-4">
+  <div class="recipe-content">
+    <div
+      *ngIf="!loading && numberOfRecipes >= 4"
+      class="text-center wow animate__animated animate__fadeInUp"
+    >
+      <h6 class="section-title bg-white text-center px-3 green-text">
+        Останні рецепти
+      </h6>
+      <h1 class="mb-5">Найсвіжіші рецепти на сайті</h1>
+    </div>
+    <div *ngIf="!loading && numberOfRecipes > 6" class="row g-3 mb-4">
+      <div class="col-lg-7 col-md-6">
+        <div class="row g-3">
+          <div
+            class="col-lg-12 col-md-12 wow animate__animated animate__zoomIn preview-item"
+            
+						[routerLink]="['/recipes', recipes[0].slug]"
+          >
+            <a
+              class="position-relative d-block overflow-hidden newest-recepie-frame"
+              [routerLink]="['recipes/', recipes[0].slug]"
+            >
+              <img
+                [src]="
+                  recipes[0].photoUrl
+                    ? recipes[0].photoUrl
+                    : 'assets/images/app/norecepi.jpg'
+                "
+                alt="{{ recipes[0].recipeName }}"
+                (error)="recipes[0].photoUrl = 'assets/images/app/norecepi.jpg'"
+              />
+              <!-- <img
+							[src]="recipes[0].imageUrl"
+							name="emailCode"
+							style="object-fit: cover"
+							class="img-fluid position-absolute w-100"
+							src="https://i.pinimg.com/736x/41/ed/b3/41edb3515bdaa3e48ef646056772a3f0.jpg"
+							alt=""
+						/> -->
+              <div
+                class="bg-white dark-text fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2"
+              >
+                {{ recipes[0].recipeName }}
+              </div>
+            </a>
+          </div>
+          <div
+            class="col-lg-6 col-md-12 wow animate__animated animate__zoomIn preview-item"
+            
+						[routerLink]="['/recipes', recipes[1].slug]"
+          >
+            <a
+              class="position-relative d-block overflow-hidden newest-recepie-frame"
+              [routerLink]="['recipes/', recipes[1].slug]"
+            >
+              <img
+                [src]="
+                  recipes[1].photoUrl
+                    ? recipes[1].photoUrl
+                    : 'assets/images/app/norecepi.jpg'
+                "
+                alt="{{ recipes[1].recipeName }}"
+                (error)="recipes[1].photoUrl = 'assets/images/app/norecepi.jpg'"
+              />
+              <!-- <img
+                class="img-fluid"
+                src="https://i.pinimg.com/736x/ea/67/32/ea67320f54fc23372ffce541a878b879.jpg"
+                alt=""
+              /> -->
+
+              <div
+                class="bg-white dark-text fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2"
+              >
+                {{ recipes[1].recipeName }}
+              </div>
+            </a>
+          </div>
+          <div
+            class="col-lg-6 col-md-12 wow animate__animated animate__zoomIn preview-item"
+            
+						[routerLink]="['/recipes', recipes[2].slug]"
+          >
+            <a
+              class="position-relative d-block overflow-hidden newest-recepie-frame"
+              [routerLink]="['recipes/', recipes[2].slug]"
+            >
+              <img
+                [src]="
+                  recipes[2].photoUrl
+                    ? recipes[2].photoUrl
+                    : 'assets/images/app/norecepi.jpg'
+                "
+                alt="{{ recipes[2].recipeName }}"
+                (error)="recipes[2].photoUrl = 'assets/images/app/norecepi.jpg'"
+              />
+
+              <div
+                class="bg-white dark-text fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2"
+              >
+                {{ recipes[2].recipeName }}
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-lg-5 col-md-6 wow animate__animated animate__zoomIn preview-item"
+        
+        style="min-height: 350px"
+				[routerLink]="['/recipes', recipes[3].slug]"
+      >
+        <a
+          class="position-relative d-block h-100 overflow-hidden"
+          [routerLink]="['recipes/', recipes[3].slug]"
+        >
+          <img
+            [src]="
+              recipes[3].photoUrl
+                ? recipes[3].photoUrl
+                : 'assets/images/app/norecepi.jpg'
+            "
+            alt="{{ recipes[3].recipeName }}"
+            (error)="recipes[3].photoUrl = 'assets/images/app/norecepi.jpg'"
+          />
+
+          <div
+            class="bg-white dark-text fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2"
+          >
+            {{ recipes[3].recipeName }}
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="text-center wow animate__animated animate__fadeInUp">
+      <a class="text-center m-5 px-3 green-text" [routerLink]="['/recipes']">
+        {{
+          !loading && numberOfRecipes > 6 ? "Більше рецептів" : "Смачні рецепти"
+        }}
+      </a>
+    </div>
+  </div>
+</div>

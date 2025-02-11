@@ -1,0 +1,155 @@
+<nav
+  [class.sticky-top]="isSticky"
+  [class.shadow-sm]="isSticky"
+  class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0"
+  id="main-navbar"
+>
+  <a href="" class="navbar-brand p-0">
+    <h1 class="h1-brand fw-semi-bold m-0">
+      <img
+        src="assets/images/app/main_logo.png"
+        alt="Logo"
+        class="me-3"
+        style="width: auto; height: 60px"
+      />
+      Місто рецептів
+    </h1>
+  </a>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarCollapse"
+  >
+    <span class="fa fa-bars"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <div class="navbar-nav ms-auto py-0">
+      <!-- <a
+        [routerLink]="['/articles']"
+        routerLinkActive="active"
+        class="nav-item nav-link"
+        >Статті</a
+      > -->
+
+      <div class="nav-item dropdown">
+        <a
+          routerLinkActive="active"
+          class="nav-link dropdown-toggle"
+          data-bs-toggle="dropdown"
+          >Категорії</a
+        >
+        <div class="dropdown-menu m-0">
+          <a
+            [routerLink]="['/recipes/categories/first-courses']"
+            class="dropdown-item"
+            >Перші страви</a
+          >
+          <a
+            [routerLink]="['/recipes/categories/second-courses']"
+            class="dropdown-item"
+            >Другі страви</a
+          >
+          <a [routerLink]="['/recipes/categories/salads']" class="dropdown-item"
+            >Салати і закуски</a
+          >
+          <a [routerLink]="['/recipes/categories/baking']" class="dropdown-item"
+            >Випічка</a
+          >
+          <a
+            [routerLink]="['/recipes/categories/desserts']"
+            class="dropdown-item"
+            >Десерти</a
+          >
+          <a [routerLink]="['/recipes/categories/drinks']" class="dropdown-item"
+            >Напої</a
+          >
+          <a
+            [routerLink]="['/recipes/categories/canning']"
+            class="dropdown-item"
+            >Консервація</a
+          >
+          <a [routerLink]="['/recipes/categories/grill']" class="dropdown-item"
+            >Страви на грилі</a
+          >
+        </div>
+      </div>
+      <div class="nav-item dropdown">
+        <a
+          routerLinkActive="active"
+          class="nav-link dropdown-toggle"
+          data-bs-toggle="dropdown"
+          >Свята</a
+        >
+        <div class="dropdown-menu m-0">
+          <a
+            [routerLink]="['/recipes/categories/christmas']"
+            class="dropdown-item"
+            >Різдво</a
+          >
+          <a
+            [routerLink]="['/recipes/categories/new-year']"
+            class="dropdown-item"
+            >Новий рік</a
+          >
+          <a
+            [routerLink]="['/recipes/categories/children']"
+            class="dropdown-item"
+            >Дитяче свято</a
+          >
+          <a [routerLink]="['/recipes/categories/easter']" class="dropdown-item"
+            >Великдень</a
+          >
+        </div>
+      </div>
+      <div class="nav-item dropdown">
+        <a
+          routerLinkActive="active"
+          class="nav-link dropdown-toggle"
+          data-bs-toggle="dropdown"
+          >Конкурси</a
+        >
+        <div class="dropdown-menu m-0">
+          <a [routerLink]="['/contests/active']" class="dropdown-item"
+            >Поточні конкурси</a
+          >
+          <a [routerLink]="['/contests/completed']" class="dropdown-item"
+            >Завершені конкурси</a
+          >
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isLoggedin" class="nav-item dropdown">
+      <a
+        routerLinkActive="active"
+        class="nav-link dropdown-toggle green-text"
+        data-bs-toggle="dropdown"
+        ><h5 class="h6-brand fw-semi-bold m-0">Привіт, шеф</h5></a
+      >
+      <div class="dropdown-menu m-0">
+        <a [routerLink]="['/dashboard']" class="dropdown-item">Мій кабінет</a>
+        <a [routerLink]="['/recipes/new-recipe']" class="dropdown-item"
+          >Додати рецепт</a
+        >
+        <a
+          *ngIf="isLoggedin"
+          (click)="logout()"
+          class="btn btn-primary rounded-pill py-2 px-4 m-2"
+          >Вихід</a
+        >
+      </div>
+    </div>
+    <a
+      *ngIf="!isLoggedin"
+      [routerLink]="['/login']"
+      class="btn btn-primary rounded-pill py-2 px-4 m-2"
+      >Вхід</a
+    >
+    <a
+      *ngIf="!isLoggedin"
+      [routerLink]="['/register']"
+      class="btn btn-primary rounded-pill py-2 px-4"
+      >Реєстрація</a
+    >
+  </div>
+</nav>

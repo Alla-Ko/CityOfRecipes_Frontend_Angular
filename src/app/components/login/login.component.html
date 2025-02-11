@@ -1,0 +1,49 @@
+<div
+  class="container wow animate__animated animate__fadeInUp "
+>
+  <section id="content">
+    <form (ngSubmit)="submitForm()">
+      <h1 class="green-text">Увійти</h1>
+      <div>
+        <i
+          class="fa-solid fa-envelope green-text"
+          style="position: absolute; left: 45px; top: 70px"
+        ></i>
+        <input
+          name="email"
+          type="email"
+          placeholder="Email"
+          required
+          id="email"
+          [(ngModel)]="email"
+        />
+      </div>
+      <div>
+        <i
+          class="fa-solid fa-lock green-text"
+          style="position: absolute; left: 45px; top: 135px"
+        ></i>
+        <input
+          name="password"
+          type="password"
+          placeholder="Password"
+          required
+          id="password"
+          [(ngModel)]="password"
+        />
+      </div>
+      <div>
+        <input
+          type="submit"
+          value="Увійти"
+          class="btn btn-primary rounded-pill py-2 px-4"
+        />
+        <div class="links">
+          <a [routerLink]="['/forgot-password']">Забули пароль?</a>
+          <a [routerLink]="['/register']">Реєстрація</a>
+        </div>
+        <div *ngIf="errorMessage" style="color: red">{{ errorMessage }}</div>
+      </div>
+    </form>
+  </section>
+</div>
