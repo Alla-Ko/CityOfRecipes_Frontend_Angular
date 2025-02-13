@@ -299,7 +299,7 @@ export class BlogService {
       Authorization: `Bearer ${token}`, // Додаємо токен у заголовок
     });
     return this.http.post<{ message: string }>(
-      `${this.apiUrl}/Contest/add-recipe/${contestId}/add-recipe/${recipeId}`,
+      `${this.apiUrl}/Contest/${contestId}/add-recipe/${recipeId}`,
       {}, // Порожній body, якщо не потрібно передавати дані
       { headers } // Заголовки передаються у третьому аргументі
     );

@@ -73,7 +73,7 @@ export class RecipeDetailsComponent implements OnInit {
   infoMessage: string = '';
   myRating: number = 0; // Зберігає поточну оцінку
   hoverRating: number = 0; // Оцінка при наведенні
-
+	enableButtons: boolean = true;
   private authSubscription!: Subscription;
   deleteMessage: string = '';
 
@@ -96,6 +96,7 @@ export class RecipeDetailsComponent implements OnInit {
       this.blogService.getRecipeBySlug(this.slug).subscribe({
         next: (recipe) => {
           if (recipe) {
+						this.enableButtons = !recipe.isParticipatedInContest;
             this.recipe = recipe;
             this.sanitizedInstructionsText = DOMPurify.sanitize(
               this.recipe.instructionsText ? this.recipe.instructionsText : ''
@@ -352,45 +353,42 @@ export class RecipeDetailsComponent implements OnInit {
     });
   }
   //addRecipeToContest(contestId: string,recipeId: string): Observable<{ message: string }>
-  sendToContest(contestId: string) {
-    this.blogService.addRecipeToContest(contestId, this.recipe.id).subscribe({
-      next: (response) => {
-        if (response.message.includes('успішно')) {
-          forkJoin({
-            recipeContests: this.loadActiveContests(),
-            availableContests: this.loadAvailableContests(),
-          }).subscribe({
-            next: ({ recipeContests, availableContests }) => {
-              //завантажуємо діючі і доступні конкурси
-              this.recipeContests = [];
-              this.availableContests = [];
-              if (recipeContests) this.recipeContests = recipeContests;
-              if (availableContests) this.availableContests = availableContests;
-              // Завершуємо завантаження
-            },
-            error: (err) => {
-              console.error('Помилка при завантаженні даних', err);
-              this.isLoading = false;
-            },
-          });
-        } else if (response.message.includes('помилка')) {
-          this.errorMessage =
-            'Помилка при додаванні рецепта на конкурс. ' + response.message;
-        } else {
-        }
-      },
-      error: (err) => {
-        this.errorMessage = 'Помилка при додаванні рецепта на конкурс. ';
-        console.log(err);
-      },
-    });
-
-    if (this.availableContests)
-      var contest = this.availableContests.find((c) => c.id === contestId);
-    if (contest) {
-      this.availableContests.splice(this.availableContests.indexOf(contest), 1);
-    }
-  }
+	sendToContest(contestId: string) {
+		this.blogService.addRecipeToContest(contestId, this.recipe.id).subscribe({
+			next: (response) => {
+				if (response.message.includes('успішно')) {
+					this.enableButtons=false;
+					forkJoin({
+						recipeContests: this.loadActiveContests(),
+						availableContests: this.loadAvailableContests(),
+					}).subscribe({
+						next: ({ recipeContests, availableContests }) => {
+							// Оновлюємо списки відразу після отримання даних
+							this.recipeContests = recipeContests || [];
+							this.availableContests = availableContests || [];
+	
+							// Якщо потрібно видалити з availableContests конкретний конкурс
+							const contestIndex = this.availableContests.findIndex((c) => c.id === contestId);
+							if (contestIndex !== -1) {
+								this.availableContests.splice(contestIndex, 1);
+							}
+						},
+						error: (err) => {
+							console.error('Помилка при завантаженні даних', err);
+							this.isLoading = false;
+						},
+					});
+				} else if (response.message.includes('помилка')) {
+					this.errorMessage = 'Помилка при додаванні рецепта на конкурс. ' + response.message;
+				}
+			},
+			error: (err) => {
+				this.errorMessage = 'Помилка при додаванні рецепта на конкурс. ';
+				console.log(err);
+			},
+		});
+	}
+	
   loadActiveContests(): Observable<Contest[]> {
     return this.blogService.getContestsForParticipatedRecipe(this.recipe.id);
   }
