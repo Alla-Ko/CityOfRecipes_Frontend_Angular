@@ -49,7 +49,7 @@ export class RecipesByTagComponent implements OnInit {
       if (segments.length > 1) {
         this.tag = segments[2].path; // Отримуємо категорію з шляху
         console.log('tag:', this.tag);
-
+				window.scrollTo(0, 0);
 
         this.start = 1; // Скидаємо пагінацію
         this.recipes = []; // Очищаємо старі рецепти

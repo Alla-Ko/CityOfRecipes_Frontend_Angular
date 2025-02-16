@@ -1,3 +1,5 @@
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -103,58 +105,70 @@ export class RecipeDetailsComponent implements OnInit {
             );
 
             // Використовуємо forkJoin для одночасного виконання всіх запитів
-            forkJoin({
-              categories: this.blogService.getCategories(),
-              author: this.userService.getUserById(this.recipe.authorId),
-              me: this.userService.aboutme(),
-              favoriteRecipes: this.blogService.getFavoriteRecipes(1, 1),
-              favoriteAuthors: this.userService.getFavoriteAuthors(),
-            }).subscribe({
-              next: ({
-                categories,
-                author,
-                me,
-                favoriteRecipes,
-                favoriteAuthors,
-              }) => {
-                // Завантажуємо категорії
-                const category = categories.find(
-                  (c) => c.id === this.recipe.categoryId
-                );
-                if (category) {
-                  this.category = category;
-                }
-                if (me) {
-                  this.isLoggedIn = true;
-                  this.myId = me.id;
-                }
-                // Завантажуємо автора
-                if (author) this.author = author;
-                if (author && me && author.id == me.id) this.isAuthor = true;
-                // Перевірка, чи є рецепт в обраних
-                const isFavorite = favoriteRecipes.recipes.some(
-                  (r) => r.id === this.recipe.id
-                );
-                this.isFavorite = isFavorite;
-                if (
-                  favoriteAuthors &&
-                  favoriteAuthors.authors &&
-                  Array.isArray(favoriteAuthors.authors)
-                ) {
-									const isFavorite = favoriteAuthors.authors.some(
-										(a) => a.id === this.author.id
-									);
-									this.author.isfavorited = isFavorite;	
-		
-                }
-                // Завершуємо завантаження
-                this.isLoading = false;
-              },
-              error: (err) => {
-                console.error('Помилка при завантаженні даних', err);
-                this.isLoading = false;
-              },
-            });
+						forkJoin({
+							categories: this.blogService.getCategories().pipe(
+								catchError((err) => {
+									console.error('Помилка завантаження категорій:', err);
+									return of([]); // повертаємо порожній масив як fallback
+								})
+							),
+							author: this.userService.getUserById(this.recipe.authorId).pipe(
+								catchError((err) => {
+									console.error('Помилка завантаження автора:', err);
+									return of(null); // fallback: null
+								})
+							),
+							me: this.userService.aboutme().pipe(
+								catchError((err) => {
+									console.error('Помилка завантаження інформації про себе:', err);
+									return of(null); // fallback: null
+								})
+							),
+							favoriteRecipes: this.blogService.getFavoriteRecipes(1, 1).pipe(
+								catchError((err) => {
+									console.error('Помилка завантаження улюблених рецептів:', err);
+									return of({ recipes: [] }); // fallback: об'єкт з порожнім масивом recipes
+								})
+							),
+							favoriteAuthors: this.userService.getFavoriteAuthors().pipe(
+								catchError((err) => {
+									console.error('Помилка завантаження улюблених авторів:', err);
+									return of({ authors: [] }); // fallback: об'єкт з порожнім масивом authors
+								})
+							),
+						}).subscribe({
+							next: ({ categories, author, me, favoriteRecipes, favoriteAuthors }) => {
+								// Завантажуємо категорії
+								const category = categories.find((c) => c.id === this.recipe.categoryId);
+								if (category) {
+									this.category = category;
+								}
+								if (me) {
+									this.isLoggedIn = true;
+									this.myId = me.id;
+								}
+								// Завантажуємо автора
+								if (author) {
+									this.author = author;
+								}
+								if (author && me && author.id === me.id) {
+									this.isAuthor = true;
+								}
+								// Перевірка, чи є рецепт в обраних
+								const isFavorite = favoriteRecipes.recipes.some((r) => r.id === this.recipe.id);
+								this.isFavorite = isFavorite;
+								if (favoriteAuthors && Array.isArray(favoriteAuthors.authors)) {
+									const isFav = favoriteAuthors.authors.some((a) => a.id === this.author.id);
+									this.author.isfavorited = isFav;
+								}
+								// Завершуємо завантаження
+								this.isLoading = false;
+							},
+							error: (err) => {
+								console.error('Виняткова помилка при завантаженні даних:', err);
+								this.isLoading = false;
+							},
+						});
 
             forkJoin({
               recipeContests: this.loadActiveContests(),
